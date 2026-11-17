@@ -24,7 +24,7 @@ export default function SaoPauloHelp({ onNotify }) {
     const next = exists ? selectedIds.filter((id) => id !== item.id) : [...selectedIds, item.id];
     setSelectedIds(next);
     if (!exists && onNotify) {
-      onNotify(`Ação ativada: ${item.title}.`);
+      onNotify(`Ação ativada (simulação): ${item.title}.`);
     }
   };
 
@@ -41,6 +41,10 @@ export default function SaoPauloHelp({ onNotify }) {
           Use dados de fumaça e clima para apoiar brigadas e proteger a saúde em SP.
         </p>
       </div>
+
+      <p className="text-center text-xs text-[var(--mu)] max-w-xl mx-auto mb-6">
+        Protótipo: os botões abaixo simulam o fluxo. Ainda não existem campanhas, alertas ou links reais por trás deles.
+      </p>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {SP_ACTIONS.map((item, idx) => {

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Newspaper, ExternalLink, BellRing, Check } from 'lucide-react';
+import { NEWS, NEWS_CHECKED_AT } from '../data/news';
 
-export default function NewsRadar({ news }) {
+export default function NewsRadar() {
   const [contact, setContact] = useState('');
   const [subscribed, setSubscribed] = useState(() => {
     try {
@@ -34,12 +35,12 @@ export default function NewsRadar({ news }) {
           Notícias ambientais
         </h2>
         <p className="text-[var(--mu)] text-sm sm:text-base">
-          Atualizações sobre queimadas, qualidade do ar e prevenção.
+          Reportagens reais sobre queimadas, fumaça e saúde, com link para a matéria original.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        {news.map((item) => (
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+        {NEWS.map((item) => (
           <article
             key={item.id}
             className="rounded-3xl border border-[var(--ln)] bg-[var(--sf)] p-5 flex flex-col justify-between"
@@ -56,7 +57,9 @@ export default function NewsRadar({ news }) {
               </p>
             </div>
             <div className="pt-3 border-t border-[var(--ln)] flex items-center justify-between text-xs">
-              <span className="font-semibold text-[var(--mu)]">{item.source}</span>
+              <span className="font-semibold text-[var(--mu)]">
+                {item.source} • {item.date}
+              </span>
               <a
                 href={item.url}
                 target="_blank"
@@ -70,6 +73,10 @@ export default function NewsRadar({ news }) {
         ))}
       </div>
 
+      <p className="text-[11px] text-[var(--mu)] text-center mb-6">
+        Títulos e datas conferidos em {NEWS_CHECKED_AT}. Os resumos são do projeto e não substituem a leitura da matéria.
+      </p>
+
       <div className="rounded-3xl border border-[var(--ln)] bg-[var(--sf)] p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="text-center md:text-left max-w-md">
           <div className="inline-flex items-center gap-2 font-serif font-semibold text-2xl mb-1">
@@ -77,7 +84,7 @@ export default function NewsRadar({ news }) {
             <span>Boletim SumaUma</span>
           </div>
           <p className="text-sm text-[var(--mu)]">
-            Resumo semanal sobre fumaça na Amazônia e impactos em SP.
+            Lista de interessados em um resumo sobre fumaça na Amazônia e impactos em SP. Protótipo: o contato fica salvo só neste aparelho e nenhum boletim é enviado.
           </p>
         </div>
 
@@ -100,7 +107,7 @@ export default function NewsRadar({ news }) {
               type="submit"
               className="px-6 py-3 rounded-full bg-[var(--natureza)] text-white font-bold text-sm hover:brightness-110 transition cursor-pointer"
             >
-              Quero receber
+              Entrar na lista
             </button>
           </form>
         )}
