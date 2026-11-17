@@ -35,7 +35,7 @@ export default function BottomDock({ activeSection, onOpenSettings }) {
           <a
             key={item.id}
             href={item.href}
-            className={`flex flex-col items-center justify-center gap-0.5 w-15 sm:w-16 px-2.5 py-2 rounded-2xl font-semibold text-[11px] transition-colors ${
+            className={`flex flex-col items-center justify-center gap-0.5 w-[60px] sm:w-16 px-1 py-2 whitespace-nowrap rounded-2xl font-semibold text-[11px] transition-colors ${
               isActive ? 'bg-[#F5F5DC]/15 text-[#A5D6A7]' : 'text-[#F5F5DC] hover:text-[#A5D6A7]'
             }`}
           >
@@ -49,7 +49,7 @@ export default function BottomDock({ activeSection, onOpenSettings }) {
         type="button"
         onClick={onOpenSettings}
         aria-haspopup="dialog"
-        className="flex flex-col items-center justify-center gap-0.5 w-15 sm:w-16 px-2.5 py-2 rounded-2xl text-[#F5F5DC] hover:text-[#A5D6A7] font-semibold text-[11px] cursor-pointer"
+        className="flex flex-col items-center justify-center gap-0.5 w-[60px] sm:w-16 px-1 py-2 whitespace-nowrap rounded-2xl text-[#F5F5DC] hover:text-[#A5D6A7] font-semibold text-[11px] cursor-pointer"
       >
         <SlidersHorizontal className="w-5 h-5" />
         <span>Ajustes</span>
