@@ -7,8 +7,8 @@ const STAGES = ['Enviado', 'Brigada acionada', 'Atendido'];
 
 export default function ReportForm({
   regions,
-  reports,
-  offlineQueue,
+  items,
+  error,
   isOfflineSim,
   onCreate,
   onAdvance,
@@ -18,22 +18,24 @@ export default function ReportForm({
   const [selectedType, setSelectedType] = useState(0);
   const [zone, setZone] = useState(regions[1]?.name || 'Lábrea');
   const [details, setDetails] = useState('');
-  const [feedback, setFeedback] = useState('');
+  const [feedback, setFeedback] = useState(null);
+  const [sending, setSending] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const msg = await onCreate({
+    if (sending) return;
+    setSending(true);
+    const res = await onCreate({
       k: selectedType,
       z: zone,
       d: details.trim(),
       s: 0,
       cf: 0,
     });
-    setDetails('');
-    setFeedback(msg);
+    setSending(false);
+    if (res.ok) setDetails('');
+    setFeedback(res);
   };
-
-  const allItems = [...offlineQueue, ...reports];
 
   return (
     <section id="avisar" className="py-16 px-4 bg-[var(--sf)] border-y border-[var(--ln)]">
@@ -109,6 +111,7 @@ export default function ReportForm({
             <textarea
               id="report-desc"
               rows={2}
+              maxLength={280}
               value={details}
               onChange={(e) => setDetails(e.target.value)}
               placeholder="Ex.: fumaça perto da estrada."
@@ -121,25 +124,36 @@ export default function ReportForm({
               ? 'Sem internet: aviso salvo na fila.'
               : API_URL
               ? 'Aviso salvo no servidor.'
-              : 'Aviso salvo neste aparelho. Configure API_URL para sincronizar na nuvem.'}
+              : 'Aviso salvo neste aparelho. Defina VITE_API_URL no arquivo .env para sincronizar na nuvem.'}
+            {' '}Protótipo: o aviso é registrado no sistema, mas não chega a bombeiros reais.
           </p>
 
           {feedback && (
-            <p className="text-sm font-semibold text-[var(--natureza)]" aria-live="polite">
-              {feedback}
+            <p
+              role={feedback.ok ? 'status' : 'alert'}
+              className={`text-sm font-semibold ${feedback.ok ? 'text-[var(--natureza)]' : 'text-[#D32F2F]'}`}
+            >
+              {feedback.message}
             </p>
           )}
 
           <button
             type="submit"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 bg-[var(--natureza)] text-white font-bold hover:brightness-110 transition cursor-pointer"
+            disabled={sending}
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 bg-[var(--natureza)] text-white font-bold hover:brightness-110 transition cursor-pointer disabled:opacity-60 disabled:cursor-wait"
           >
-            <Send className="w-4 h-4" /> Enviar aviso
+            <Send className="w-4 h-4" /> {sending ? 'Enviando…' : 'Enviar aviso'}
           </button>
         </form>
 
+        {error && (
+          <p role="alert" className="mt-6 text-sm font-semibold text-[#D32F2F]">
+            {error}
+          </p>
+        )}
+
         <div className="mt-6 space-y-3">
-          {allItems.map((item) => {
+          {items.map((item) => {
             const isQueued = item.s < 0;
             return (
               <article key={item.id} className="rounded-2xl border border-[var(--ln)] bg-[var(--bg)] p-4">

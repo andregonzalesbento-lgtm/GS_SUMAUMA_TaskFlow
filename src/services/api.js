@@ -1,31 +1,39 @@
-import { FALLBACK_NEWS } from '../data/regions';
+// URL do recurso "avisos" da API REST (ex.: https://SEU_ID.mockapi.io/api/v1/avisos).
+// Defina em .env: VITE_API_URL=... (veja .env.example). Vazio = salva só neste aparelho.
+export const API_URL = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
 
-// Cole aqui a URL do recurso "avisos" da sua API REST (ex.: MockAPI.io). Vazio = salva localmente no aparelho.
-export const API_URL = '';
+const TIMEOUT_MS = 8000;
+
+async function fetchWithTimeout(url, options = {}) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
+  try {
+    return await fetch(url, { ...options, signal: ctrl.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+}
 
 function norm(s) {
   return String(s || '')
+    .replace(/"/g, '')
     .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[̀-ͯ]/g, '')
     .toUpperCase()
     .trim();
 }
 
-function shortenNewsSummary(description) {
-  const text = String(description || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
-  if (text.length <= 100) return text || 'Sem resumo disponível.';
-  const end = text.lastIndexOf(' ', 100);
-  return `${text.slice(0, end > 0 ? end : 100)}…`;
-}
-
+// ---------- Qualidade do ar e clima (Open-Meteo / CAMS, CC BY 4.0) ----------
 export async function fetchEnvironmentData(regions) {
   const latList = regions.map((r) => r.lat).join(',');
   const lonList = regions.map((r) => r.lon).join(',');
   const query = `latitude=${latList}&longitude=${lonList}&timezone=auto`;
 
   const [airRes, weatherRes] = await Promise.all([
-    fetch(`https://air-quality-api.open-meteo.com/v1/air-quality?${query}&current=pm2_5`),
-    fetch(`https://api.open-meteo.com/v1/forecast?${query}&current=temperature_2m,relative_humidity_2m,wind_speed_10m`),
+    fetchWithTimeout(`https://air-quality-api.open-meteo.com/v1/air-quality?${query}&current=pm2_5`),
+    fetchWithTimeout(
+      `https://api.open-meteo.com/v1/forecast?${query}&current=temperature_2m,relative_humidity_2m,wind_speed_10m`
+    ),
   ]);
 
   if (!airRes.ok || !weatherRes.ok) throw new Error('Falha ao consultar Open-Meteo');
@@ -34,36 +42,37 @@ export async function fetchEnvironmentData(regions) {
   const weatherData = await weatherRes.json();
 
   return regions.map((r, i) => {
-    const a = Array.isArray(airData) ? airData[i].current : airData.current;
-    const w = Array.isArray(weatherData) ? weatherData[i].current : weatherData.current;
+    const a = (Array.isArray(airData) ? airData[i] : airData)?.current ?? {};
+    const w = (Array.isArray(weatherData) ? weatherData[i] : weatherData)?.current ?? {};
     return {
-      pm: a.pm2_5,
-      temp: w.temperature_2m,
-      hum: w.relative_humidity_2m,
-      wind: w.wind_speed_10m,
-      time: w.time,
+      pm: a.pm2_5 ?? null,
+      temp: w.temperature_2m ?? null,
+      hum: w.relative_humidity_2m ?? null,
+      wind: w.wind_speed_10m ?? null,
+      time: w.time ?? a.time ?? '',
     };
   });
 }
 
-export async function fetchInpeHotspots() {
-  const d = new Date(Date.now() - 864e5);
-  const stamp =
-    d.getUTCFullYear() +
-    ('0' + (d.getUTCMonth() + 1)).slice(-2) +
-    ('0' + d.getUTCDate()).slice(-2);
+// ---------- Focos de calor do dia (INPE, CSV diário) ----------
+function stampDaysAgo(days) {
+  const d = new Date(Date.now() - days * 864e5);
+  return (
+    d.getUTCFullYear() + ('0' + (d.getUTCMonth() + 1)).slice(-2) + ('0' + d.getUTCDate()).slice(-2)
+  );
+}
 
-  const res = await fetch(
+async function fetchInpeFor(stamp) {
+  const res = await fetchWithTimeout(
     `https://dataserver-coids.inpe.br/queimadas/queimadas/focos/csv/diario/Brasil/focos_diario_br_${stamp}.csv`
   );
   if (!res.ok) throw new Error('INPE indisponível');
 
-  const text = await res.text();
-  const lines = text.split('\n');
-  const header = lines[0].toLowerCase().split(',');
+  const lines = (await res.text()).split('\n');
+  const header = lines[0].toLowerCase().replace(/"/g, '').split(',');
   const im = header.indexOf('municipio');
   const ie = header.indexOf('estado');
-  if (im < 0 || ie < 0) throw new Error('Colunas inválidas');
+  if (im < 0 || ie < 0) throw new Error('Colunas inválidas no CSV do INPE');
 
   const counts = {};
   for (let i = 1; i < lines.length; i++) {
@@ -76,82 +85,75 @@ export async function fetchInpeHotspots() {
   return { counts, dateLabel: `${stamp.slice(6)}/${stamp.slice(4, 6)}` };
 }
 
-export async function fetchVerifiedNews() {
+// Tenta o arquivo de ontem e, se ainda não foi publicado, o de anteontem.
+// O navegador pode bloquear a leitura (CORS); nesse caso o erro é tratado pelo chamador.
+export async function fetchInpeHotspots() {
   try {
-    const rssUrl = encodeURIComponent('https://agenciabrasil.ebc.com.br/rss/meio-ambiente/feed.xml');
-    const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`);
-    if (!res.ok) throw new Error('RSS indisponível');
-    const data = await res.json();
-    if (data.status !== 'ok' || !Array.isArray(data.items) || data.items.length === 0) {
-      throw new Error('Sem itens');
-    }
-    return data.items.slice(0, 3).map((item, idx) => ({
-      id: item.guid || `rss-${idx}`,
-      region: 'Agência Brasil • Meio Ambiente',
-      title: item.title,
-      summary: shortenNewsSummary(item.description),
-      source: 'Agência Brasil (EBC)',
-      url: item.link,
-    }));
+    return await fetchInpeFor(stampDaysAgo(1));
   } catch {
-    return FALLBACK_NEWS;
+    return fetchInpeFor(stampDaysAgo(2));
   }
 }
 
+// ---------- CRUD dos avisos (API REST externa ou localStorage) ----------
 const LOCAL_KEY = 'suma_reports_v2';
+
+function readLocal() {
+  try {
+    return JSON.parse(localStorage.getItem(LOCAL_KEY) || '[]');
+  } catch {
+    return [];
+  }
+}
+
+function writeLocal(list) {
+  localStorage.setItem(LOCAL_KEY, JSON.stringify(list));
+}
+
+const jsonHeaders = { 'Content-Type': 'application/json' };
 
 export const reportsApi = {
   async list() {
     if (API_URL) {
-      const res = await fetch(API_URL);
-      if (!res.ok) throw new Error('Erro GET');
+      const res = await fetchWithTimeout(API_URL);
+      if (!res.ok) throw new Error(`GET ${res.status}`);
       return res.json();
     }
-    try {
-      return JSON.parse(localStorage.getItem(LOCAL_KEY) || '[]');
-    } catch {
-      return [];
-    }
+    return readLocal();
   },
   async create(report) {
     if (API_URL) {
-      const res = await fetch(API_URL, {
+      const res = await fetchWithTimeout(API_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: jsonHeaders,
         body: JSON.stringify(report),
       });
-      if (!res.ok) throw new Error('Erro POST');
+      if (!res.ok) throw new Error(`POST ${res.status}`);
       return res.json();
     }
-    const list = await this.list();
     const item = { ...report, id: String(Date.now()) };
-    const next = [item, ...list];
-    localStorage.setItem(LOCAL_KEY, JSON.stringify(next));
+    writeLocal([item, ...readLocal()]);
     return item;
   },
   async update(id, report) {
     if (API_URL) {
-      const res = await fetch(`${API_URL}/${id}`, {
+      const res = await fetchWithTimeout(`${API_URL}/${id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: jsonHeaders,
         body: JSON.stringify(report),
       });
-      if (!res.ok) throw new Error('Erro PUT');
+      if (!res.ok) throw new Error(`PUT ${res.status}`);
       return res.json();
     }
-    const list = await this.list();
-    const next = list.map((r) => (String(r.id) === String(id) ? report : r));
-    localStorage.setItem(LOCAL_KEY, JSON.stringify(next));
+    writeLocal(readLocal().map((r) => (String(r.id) === String(id) ? report : r)));
     return report;
   },
   async remove(id) {
     if (API_URL) {
-      const res = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
-      if (!res.ok) throw new Error('Erro DELETE');
+      const res = await fetchWithTimeout(`${API_URL}/${id}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error(`DELETE ${res.status}`);
       return;
     }
-    const list = await this.list();
-    const next = list.filter((r) => String(r.id) !== String(id));
-    localStorage.setItem(LOCAL_KEY, JSON.stringify(next));
+    writeLocal(readLocal().filter((r) => String(r.id) !== String(id)));
   },
 };
