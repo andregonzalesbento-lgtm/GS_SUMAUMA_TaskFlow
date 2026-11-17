@@ -79,7 +79,7 @@ export default function App() {
               {['Natureza', 'Confiança', 'Prevenção', 'Humanidade', 'Tecnologia'].map((pill) => (
                 <span
                   key={pill}
-                  className="px-4 py-1 rounded-full border border-[var(--natureza)] text-[var(--natureza)] font-semibold text-xs"
+                  className="px-4 py-1 rounded-full border border-[var(--natureza)] text-[var(--natureza-texto)] font-semibold text-xs"
                 >
                   {pill}
                 </span>

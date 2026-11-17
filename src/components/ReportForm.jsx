@@ -131,7 +131,7 @@ export default function ReportForm({
           {feedback && (
             <p
               role={feedback.ok ? 'status' : 'alert'}
-              className={`text-sm font-semibold ${feedback.ok ? 'text-[var(--natureza)]' : 'text-[var(--erro)]'}`}
+              className={`text-sm font-semibold ${feedback.ok ? 'text-[var(--natureza-texto)]' : 'text-[var(--erro)]'}`}
             >
               {feedback.message}
             </p>

@@ -46,7 +46,7 @@ export default function NewsRadar() {
             className="rounded-3xl border border-[var(--ln)] bg-[var(--sf)] p-5 flex flex-col justify-between"
           >
             <div>
-              <span className="inline-block text-[11px] font-bold text-[var(--natureza)] mb-2">
+              <span className="inline-block text-[11px] font-bold text-[var(--natureza-texto)] mb-2">
                 {item.region}
               </span>
               <h3 className="font-serif font-semibold text-lg leading-snug mb-2">
@@ -64,7 +64,7 @@ export default function NewsRadar() {
                 href={item.url}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-1 font-bold text-[var(--natureza)] hover:underline"
+                className="inline-flex items-center gap-1 font-bold text-[var(--natureza-texto)] hover:underline"
               >
                 Ver matéria <ExternalLink className="w-3.5 h-3.5" />
               </a>

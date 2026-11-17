@@ -5,6 +5,7 @@
 :root {
   --floresta: #0B2E1B;
   --natureza: #1B5E34;
+  --natureza-texto: #1B5E34;
   --folha: #A5D6A7;
   --laranja: #FB8C00;
   --vermelho: #D32F2F;
@@ -36,6 +37,7 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --natureza: #2E7D32;
+    --natureza-texto: #66BB6A;
     --bg: #111A1D;
     --sf: #1D2A30;
     --ink: #F1F4F2;
@@ -59,6 +61,7 @@
 
 :root[data-theme="dark"] {
   --natureza: #2E7D32;
+  --natureza-texto: #66BB6A;
   --bg: #111A1D;
   --sf: #1D2A30;
   --ink: #F1F4F2;

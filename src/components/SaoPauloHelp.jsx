@@ -31,7 +31,7 @@ export default function SaoPauloHelp({ onNotify }) {
   return (
     <section id="sp-ajuda" className="py-16 px-4 max-w-5xl mx-auto">
       <div className="text-center max-w-2xl mx-auto mb-8">
-        <span className="inline-block text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[color:var(--natureza)]/15 text-[var(--natureza)] mb-2">
+        <span className="inline-block text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[color:var(--natureza)]/15 text-[var(--natureza-texto)] mb-2">
           São Paulo + Amazônia
         </span>
         <h2 className="font-serif font-semibold text-[clamp(28px,4.2vw,42px)] leading-tight mb-2">
@@ -76,7 +76,7 @@ export default function SaoPauloHelp({ onNotify }) {
 
               <div>
                 {active && (
-                  <p className="text-xs font-semibold text-[var(--natureza)] mb-3 flex items-start gap-1.5">
+                  <p className="text-xs font-semibold text-[var(--natureza-texto)] mb-3 flex items-start gap-1.5">
                     <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5" />
                     <span>{item.detail}</span>
                   </p>
