@@ -18,6 +18,8 @@
   --ink: #17251C;
   --mu: #435348;
   --ln: #A8B5AA;
+  --campo: #7A8B7E;
+  --erro: #B71C1C;
   --map-state: #2D7651;
   --map-state-alt: #347F56;
   --map-highlight: #55A86F;
@@ -39,6 +41,8 @@
     --ink: #F1F4F2;
     --mu: #B6C5C6;
     --ln: #485B60;
+    --campo: #6B8085;
+    --erro: #FF8A80;
     --map-state: #398365;
     --map-state-alt: #34775D;
     --map-highlight: #5FC488;
@@ -60,6 +64,8 @@
   --ink: #F1F4F2;
   --mu: #B6C5C6;
   --ln: #485B60;
+  --campo: #6B8085;
+  --erro: #FF8A80;
   --map-state: #398365;
   --map-state-alt: #34775D;
   --map-highlight: #5FC488;
@@ -80,7 +86,7 @@ html {
 }
 html.big { font-size: 115%; }
 html.xl { font-size: 128%; }
-html.hc { --ln: var(--ink); --mu: var(--ink); }
+html.hc { --ln: var(--ink); --campo: var(--ink); --mu: var(--ink); }
 
 body {
   margin: 0;

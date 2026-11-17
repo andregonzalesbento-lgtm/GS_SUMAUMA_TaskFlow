@@ -94,7 +94,7 @@ export default function ReportForm({
               id="report-zone"
               value={zone}
               onChange={(e) => setZone(e.target.value)}
-              className="w-full p-3 rounded-xl border-2 border-[var(--ln)] bg-[var(--bg)] font-medium"
+              className="w-full p-3 rounded-xl border-2 border-[var(--campo)] bg-[var(--bg)] font-medium"
             >
               {regions.map((r) => (
                 <option key={r.id} value={r.name}>
@@ -115,7 +115,7 @@ export default function ReportForm({
               value={details}
               onChange={(e) => setDetails(e.target.value)}
               placeholder="Ex.: fumaça perto da estrada."
-              className="w-full p-3 rounded-xl border-2 border-[var(--ln)] bg-[var(--bg)] placeholder:text-[var(--mu)]"
+              className="w-full p-3 rounded-xl border-2 border-[var(--campo)] bg-[var(--bg)] placeholder:text-[var(--mu)]"
             />
           </div>
 
@@ -131,7 +131,7 @@ export default function ReportForm({
           {feedback && (
             <p
               role={feedback.ok ? 'status' : 'alert'}
-              className={`text-sm font-semibold ${feedback.ok ? 'text-[var(--natureza)]' : 'text-[#D32F2F]'}`}
+              className={`text-sm font-semibold ${feedback.ok ? 'text-[var(--natureza)]' : 'text-[var(--erro)]'}`}
             >
               {feedback.message}
             </p>
@@ -147,7 +147,7 @@ export default function ReportForm({
         </form>
 
         {error && (
-          <p role="alert" className="mt-6 text-sm font-semibold text-[#D32F2F]">
+          <p role="alert" className="mt-6 text-sm font-semibold text-[var(--erro)]">
             {error}
           </p>
         )}
@@ -207,7 +207,7 @@ export default function ReportForm({
                   <button
                     type="button"
                     onClick={() => onDelete(item)}
-                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full border border-[var(--ln)] text-xs font-semibold hover:border-[#D32F2F] hover:text-[#D32F2F] transition cursor-pointer"
+                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full border border-[var(--ln)] text-xs font-semibold hover:border-[var(--erro)] hover:text-[var(--erro)] transition cursor-pointer"
                   >
                     <Trash2 className="w-3.5 h-3.5" /> Excluir
                   </button>

@@ -101,7 +101,7 @@ export default function NewsRadar() {
               onChange={(e) => setContact(e.target.value)}
               placeholder="E-mail ou WhatsApp"
               aria-label="E-mail ou WhatsApp"
-              className="px-4 py-3 rounded-full border-2 border-[var(--ln)] bg-[var(--bg)] text-sm min-w-[240px] placeholder:text-[var(--mu)] focus:outline-none focus:border-[var(--natureza)]"
+              className="px-4 py-3 rounded-full border-2 border-[var(--campo)] bg-[var(--bg)] text-sm min-w-[240px] placeholder:text-[var(--mu)] focus:outline-none focus:border-[var(--natureza)]"
             />
             <button
               type="submit"

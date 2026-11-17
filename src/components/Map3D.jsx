@@ -281,7 +281,7 @@ export default function Map3D({ regions, selectedIdx, onSelect, status, onSpeak 
           </button>
 
           {!status.live && !status.loading && (
-            <p className="text-xs font-bold text-[#D32F2F] mt-4" role="status">
+            <p className="text-xs font-bold text-[var(--erro)] mt-4" role="status">
               Valores de demonstração: não são medições reais.
             </p>
           )}
