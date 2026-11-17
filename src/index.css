@@ -1,0 +1,275 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --floresta: #0B2E1B;
+  --natureza: #1B5E34;
+  --folha: #A5D6A7;
+  --laranja: #FB8C00;
+  --vermelho: #D32F2F;
+  --areia: #F5F5DC;
+  --grafite: #1B1F24;
+  --cinza: #546E63;
+  --vivo: #66BB6A;
+
+  --bg: #F1F5F0;
+  --sf: #FFFFFF;
+  --ink: #17251C;
+  --mu: #435348;
+  --ln: #A8B5AA;
+  --map-state: #2D7651;
+  --map-state-alt: #347F56;
+  --map-highlight: #55A86F;
+  --map-highlight-edge: #EDF8EF;
+  --map-border: #174D32;
+  --map-side: #0D4B31;
+  --map-label-bg: #FFFFFF;
+  --map-label-ink: #10291B;
+  --map-city-bg: #0B2E1B;
+  --map-city-ink: #F5F5DC;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --natureza: #2E7D32;
+    --bg: #111A1D;
+    --sf: #1D2A30;
+    --ink: #F1F4F2;
+    --mu: #B6C5C6;
+    --ln: #485B60;
+    --map-state: #398365;
+    --map-state-alt: #34775D;
+    --map-highlight: #5FC488;
+    --map-highlight-edge: #D6F4E1;
+    --map-border: #194C3A;
+    --map-side: #164638;
+    --map-label-bg: #25363A;
+    --map-label-ink: #F1F4F2;
+    --map-city-bg: #111A1D;
+    --map-city-ink: #F1F4F2;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --natureza: #2E7D32;
+  --bg: #111A1D;
+  --sf: #1D2A30;
+  --ink: #F1F4F2;
+  --mu: #B6C5C6;
+  --ln: #485B60;
+  --map-state: #398365;
+  --map-state-alt: #34775D;
+  --map-highlight: #5FC488;
+  --map-highlight-edge: #D6F4E1;
+  --map-border: #194C3A;
+  --map-side: #164638;
+  --map-label-bg: #25363A;
+  --map-label-ink: #F1F4F2;
+  --map-city-bg: #111A1D;
+  --map-city-ink: #F1F4F2;
+  color-scheme: dark;
+}
+
+html {
+  scroll-padding-top: 76px;
+  scroll-behavior: smooth;
+  overflow-x: clip;
+}
+html.big { font-size: 115%; }
+html.xl { font-size: 128%; }
+html.hc { --ln: var(--ink); --mu: var(--ink); }
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  padding-bottom: 112px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.smk {
+  position: absolute;
+  inset: -20% -10% 30% 30%;
+  background: radial-gradient(closest-side, #9aa5a055, transparent);
+  filter: blur(30px);
+  animation: dr 18s ease-in-out infinite alternate;
+}
+
+@keyframes dr {
+  to { transform: translate(-14%, 6%) scale(1.25); }
+}
+
+@keyframes up {
+  from { opacity: 0; transform: translateY(32px); }
+}
+
+.anim-up { animation: up 0.9s cubic-bezier(.2,.8,.2,1) both; }
+.anim-up-d1 { animation: up 0.9s 0.18s cubic-bezier(.2,.8,.2,1) both; }
+.anim-up-d2 { animation: up 0.9s 0.36s cubic-bezier(.2,.8,.2,1) both; }
+.anim-up-d3 { animation: up 0.9s 0.54s cubic-bezier(.2,.8,.2,1) both; }
+
+.gl { animation: gl 16s linear infinite; }
+@keyframes gl { to { stroke-dashoffset: -0.55; } }
+
+@keyframes rp {
+  70% { box-shadow: 0 0 0 14px rgba(0, 0, 0, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }
+}
+.pulse-pin { animation: rp 2.4s infinite; }
+
+.map-stage {
+  perspective: 950px;
+}
+
+.map-plane {
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(.22, 1, .36, 1);
+}
+
+.map-plane.is-3d {
+  transform: rotateX(calc(26deg + var(--map-drag-x, 0deg))) rotateY(calc(-4deg + var(--map-drag-y, 0deg))) scale(0.96);
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+}
+
+.map-plane.is-3d.is-dragging {
+  cursor: grabbing;
+  transition: none;
+}
+
+.brazil-map-side {
+  filter: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.24));
+}
+
+.map-region-label {
+  position: absolute;
+  z-index: 1;
+  padding: 0.3rem 0.55rem;
+  border: 1px solid var(--map-border);
+  border-radius: 0.55rem;
+  background: var(--map-label-bg);
+  color: var(--map-label-ink);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.22);
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.15;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.map-region-label-manaus {
+  left: calc(50% + 8px);
+  top: calc(50% - 26px);
+  transform: translate(0, -50%);
+}
+
+.map-region-label-labrea {
+  left: calc(50% - 4px);
+  top: calc(50% - 27px);
+  transform: translate(-100%, -50%);
+}
+
+.map-region-label-apui {
+  left: calc(50% + 20px);
+  top: calc(50% + 3px);
+  transform: translate(0, -50%);
+}
+
+.map-region-label-humaita {
+  left: 50%;
+  top: calc(50% + 29px);
+  transform: translate(-50%, -50%);
+}
+
+.map-region-label-boca-do-acre {
+  left: calc(50% - 12px);
+  top: calc(50% - 6px);
+  transform: translate(-100%, -50%);
+}
+
+.map-city-marker {
+  position: absolute;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.map-city-dot {
+  width: 0.7rem;
+  height: 0.7rem;
+  border: 2px solid var(--map-label-bg);
+  border-radius: 50%;
+  background: #66BB6A;
+  box-shadow: 0 0 0 1px var(--map-border);
+}
+
+.map-city-label {
+  padding: 0.2rem 0.4rem;
+  border: 1px solid var(--ln);
+  border-radius: 0.45rem;
+  background: var(--map-city-bg);
+  color: var(--map-city-ink);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+@media (max-width: 520px) {
+  .map-plane.is-3d {
+    transform: rotateX(calc(20deg + var(--map-drag-x, 0deg))) rotateY(var(--map-drag-y, 0deg)) scale(0.92);
+  }
+
+  .map-region-label {
+    padding: 0.18rem 0.35rem;
+    font-size: 0.66rem;
+  }
+
+  .map-region-label-manaus {
+    left: calc(50% + 5px);
+    top: calc(50% - 25px);
+    transform: translate(-50%, -50%);
+  }
+
+  .map-region-label-labrea {
+    left: calc(50% - 5px);
+    top: calc(50% - 24px);
+  }
+
+  .map-region-label-apui {
+    left: calc(50% + 10px);
+    top: calc(50% + 8px);
+  }
+
+  .map-region-label-humaita {
+    left: calc(50% + 20px);
+    top: calc(50% + 30px);
+    transform: translate(0, -50%);
+  }
+
+  .map-region-label-boca-do-acre {
+    left: calc(50% + 5px);
+    top: calc(50% + 44px);
+    transform: translate(0, -50%);
+  }
+}
+
+html.calm *, html.calm *::before {
+  animation: none !important;
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
