@@ -1,22 +1,22 @@
 # SumaUma — Informação que protege a natureza
 
-Protótipo web da **Global Solution 2026.2 (FIAP) — CitizenTech**, feito em React + Vite + Tailwind CSS. Este repositório junta o trabalho de André (estrutura, hooks, integração com APIs, documentação) e de Kayto (mapa do Brasil em relevo, tema de cores e revisão de textos).
-
 ## Ficha da CitizenTech
 
-> Itens marcados com **[CONFIRMAR]** dependem de decisão do grupo ou dos professores. Revise antes de entregar.
-
-| Campo | Resposta |
+| Campo | Conteúdo |
 |---|---|
-| **Nome da solução** | SumaUma |
-| **Cidade e bairro** | Manaus (AM) e municípios do sul do Amazonas (Lábrea, Apuí, Humaitá, Boca do Acre), com apoio a partir de São Paulo. **[CONFIRMAR bairro/comunidade]** |
-| **Cidadão beneficiado** | Morador de comunidade ribeirinha ou periférica que convive com fumaça e queimadas e tem pouco sinal de internet. **[CONFIRMAR perfil/pessoa real definida com os professores]** |
+| **Nome** | SumaUma |
+| **Cidade e bairro** | Manaus (AM) como região piloto, ampliando para todas as cidades do Amazonas e região; cidade de São Paulo (SP); e comunidades indígenas do Amazonas e de São Paulo. |
+| **Cidadão beneficiado** | Povos ribeirinhos, povos indígenas e crianças de Manaus e entorno, além de moradores de São Paulo afetados pela fumaça, que sofrem com cheias, secas, queimadas, fumaça e isolamento e têm pouco acesso a informação e a serviços de saúde. |
 | **Problema em uma frase** | Quem vive perto das queimadas na Amazônia recebe a informação sobre fogo e fumaça tarde, de forma dispersa e sem saber se a ajuda chegou. |
 | **Como funciona** | O site mostra o risco do ar por município (PM2,5 da Open-Meteo/CAMS e focos de calor do INPE), orienta em linguagem simples (com leitura em voz alta) e permite avisar sobre fogo ou fumaça. O aviso entra numa lista com etapas (enviado → brigada avisada → atendido → confirmado pelo morador) e fica guardado numa fila mesmo sem internet. |
-| **O que cada parte faz** | **André:** componentes React, hooks personalizados, integração com Open-Meteo/INPE e CRUD de avisos, notícias, acessibilidade e documentação. **Kayto:** mapa do Brasil em relevo (arrastável), tema de cores claro/escuro, floresta do Hero e revisão dos textos. **[CONFIRMAR divisão e PREENCHER demais integrantes]** |
-| **Link do repositório** | **[PREENCHER: link do GitHub privado, com os professores como colaboradores com permissão de escrita]** |
-| **Indicador de impacto** | Percentual de avisos que chegam à etapa "Confirmado" e tempo entre "Enviado" e "Atendido". O protótipo já registra essas etapas em cada aviso (campos `s` e `cf`). |
-| **ODS conectados** | ODS 3 (Saúde e bem-estar), ODS 13 (Ação contra a mudança global do clima) e ODS 15 (Vida terrestre). |
+| **O que cada parte faz** | **André Gonzales Bento:** Front-end Design + Web Development (Interface e Interação). Componentes React, hooks personalizados, integração com as APIs (Open-Meteo, INPE e CRUD de avisos), notícias, acessibilidade e documentação.<br>**Samuel Kayto Takiuchi (Kayto):** Front-end Design + Web Development (Interface e Interação). Mapa do Brasil em relevo, tema de cores claro/escuro, floresta do Hero e revisão dos textos do site.<br>**Richard Henrique Dias dos Santos:** Computational Thinking with Python (Lógica).<br>**Isabella Rodrigues Afonso:** Differentiated Problem Solving (Matemática), Software & Total Experience Design (Experiência) e Storytelling & Inspiração Empreendedora (Pitch).<br>**Nicholas Franco Vidal:** Edge Computing & Computer Systems (Sensor). |
+| **Link do repositório** | https://github.com/andregonzalesbento-lgtm/GS_SUMAUMA_TaskFlow |
+| **Indicador de impacto** | Tempo entre a identificação de uma necessidade e o encaminhamento, e percentual de relatos acompanhados até a resposta. O protótipo já registra as etapas de cada aviso (campos `s` e `cf`). |
+| **ODS conectados** | ODS 3 — Saúde e bem-estar (principal); ODS 10 — Redução das desigualdades; ODS 13 — Ação contra a mudança global do clima. |
+
+## Sobre o projeto
+
+Protótipo web da **Global Solution 2026.2 (FIAP) — CitizenTech**, feito em React + Vite + Tailwind CSS. A parte de Front-end Design e Web Development foi feita por André (estrutura, hooks, integração com APIs, documentação) e Kayto (mapa do Brasil em relevo, tema de cores e revisão de textos).
 
 ## Pré-requisitos
 
