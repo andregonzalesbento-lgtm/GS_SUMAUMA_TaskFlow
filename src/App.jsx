@@ -47,44 +47,46 @@ export default function App() {
     <>
       <div inert={settingsOpen ? '' : undefined}>
         <Header />
-        <Hero calm={!!settings.calm} />
-        <RiverStory />
-        <Map3D
-          regions={regions}
-          selectedIdx={selectedIdx}
-          onSelect={handleSelectRegion}
-          status={status}
-          onSpeak={(text) => speak(text, true)}
-        />
-        <SaoPauloHelp onNotify={(msg) => speak(msg)} />
-        <NewsRadar />
-        <ReportForm
-          regions={regions}
-          items={reports.items}
-          error={reports.error}
-          isOfflineSim={!!settings.off}
-          onCreate={withSpeech(reports.create)}
-          onAdvance={reports.advance}
-          onConfirm={withSpeech(reports.confirm)}
-          onDelete={reports.remove}
-        />
+        <main>
+          <Hero calm={!!settings.calm} />
+          <RiverStory />
+          <Map3D
+            regions={regions}
+            selectedIdx={selectedIdx}
+            onSelect={handleSelectRegion}
+            status={status}
+            onSpeak={(text) => speak(text, true)}
+          />
+          <SaoPauloHelp onNotify={(msg) => speak(msg)} />
+          <NewsRadar />
+          <ReportForm
+            regions={regions}
+            items={reports.items}
+            error={reports.error}
+            isOfflineSim={!!settings.off}
+            onCreate={withSpeech(reports.create)}
+            onAdvance={reports.advance}
+            onConfirm={withSpeech(reports.confirm)}
+            onDelete={reports.remove}
+          />
 
-        <div className="max-w-3xl w-[calc(100%-32px)] mx-auto my-8 p-7 rounded-3xl bg-[var(--sf)] text-[var(--ink)] border border-[var(--ln)] text-center">
-          <h2 className="font-serif font-semibold text-3xl mb-2">Juntos pela natureza.</h2>
-          <p className="text-sm sm:text-base max-w-md mx-auto mb-4">
-            A SumaUma conecta Amazônia e São Paulo com dados para prevenir queimadas.
-          </p>
-          <div className="flex flex-wrap gap-2 justify-center">
-            {['Natureza', 'Confiança', 'Prevenção', 'Humanidade', 'Tecnologia'].map((pill) => (
-              <span
-                key={pill}
-                className="px-4 py-1 rounded-full border border-[var(--natureza)] text-[var(--natureza)] font-semibold text-xs"
-              >
-                {pill}
-              </span>
-            ))}
+          <div className="max-w-3xl w-[calc(100%-32px)] mx-auto my-8 p-7 rounded-3xl bg-[var(--sf)] text-[var(--ink)] border border-[var(--ln)] text-center">
+            <h2 className="font-serif font-semibold text-3xl mb-2">Juntos pela natureza.</h2>
+            <p className="text-sm sm:text-base max-w-md mx-auto mb-4">
+              A SumaUma conecta Amazônia e São Paulo com dados para prevenir queimadas.
+            </p>
+            <div className="flex flex-wrap gap-2 justify-center">
+              {['Natureza', 'Confiança', 'Prevenção', 'Humanidade', 'Tecnologia'].map((pill) => (
+                <span
+                  key={pill}
+                  className="px-4 py-1 rounded-full border border-[var(--natureza)] text-[var(--natureza)] font-semibold text-xs"
+                >
+                  {pill}
+                </span>
+              ))}
+            </div>
           </div>
-        </div>
+        </main>
 
         <footer className="px-4 pt-4 pb-10 text-center text-xs text-[var(--mu)] max-w-3xl mx-auto leading-relaxed">
           SumaUma é um protótipo acadêmico da FIAP (Global Solution 2026.2). Qualidade do ar e clima:{' '}
