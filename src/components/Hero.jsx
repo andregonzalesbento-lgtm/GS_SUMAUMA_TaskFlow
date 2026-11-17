@@ -1,15 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { useScrollY } from '../hooks/useScrollY';
 import { AlertTriangle } from 'lucide-react';
 
 export default function Hero({ calm }) {
   const canvasRef = useRef(null);
-  const [scrollY, setScrollY] = useState(0);
-
-  useEffect(() => {
-    const onScroll = () => setScrollY(Math.min(window.scrollY, window.innerHeight * 1.2));
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  const scrollY = useScrollY();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -19,6 +14,7 @@ export default function Hero({ calm }) {
     let w = (canvas.width = canvas.offsetWidth);
     let h = (canvas.height = canvas.offsetHeight);
     const mouse = { x: -999, y: -999 };
+    const parent = canvas.parentElement;
 
     const onResize = () => {
       w = canvas.width = canvas.offsetWidth;
@@ -30,8 +26,14 @@ export default function Hero({ calm }) {
       mouse.y = e.clientY - r.top;
     };
 
+    const onMouseLeave = () => {
+      mouse.x = -999;
+      mouse.y = -999;
+    };
+
     window.addEventListener('resize', onResize);
-    canvas.parentElement?.addEventListener('mousemove', onMouseMove);
+    parent?.addEventListener('mousemove', onMouseMove);
+    parent?.addEventListener('mouseleave', onMouseLeave);
 
     const makeParticle = (bottom) => ({
       x: Math.random() * w,
@@ -45,7 +47,7 @@ export default function Hero({ calm }) {
 
     const draw = () => {
       ctx.clearRect(0, 0, w, h);
-      if (!calm && !document.hidden) {
+      if (!document.hidden) {
         particles.forEach((p, i) => {
           p.a += 0.05;
           p.y -= p.v;
@@ -66,11 +68,15 @@ export default function Hero({ calm }) {
       }
       animId = requestAnimationFrame(draw);
     };
-    draw();
+    // Com "reduzir movimento" ligado não há animação nenhuma.
+    if (calm) ctx.clearRect(0, 0, w, h);
+    else draw();
 
     return () => {
       cancelAnimationFrame(animId);
       window.removeEventListener('resize', onResize);
+      parent?.removeEventListener('mousemove', onMouseMove);
+      parent?.removeEventListener('mouseleave', onMouseLeave);
     };
   }, [calm]);
 
@@ -133,7 +139,7 @@ export default function Hero({ calm }) {
             <span className="block text-[#A5D6A7] anim-up-d1">as queimadas.</span>
           </h1>
           <p className="text-[clamp(17px,2.2vw,21px)] max-w-[36ch] mx-auto opacity-95 anim-up-d2">
-            Informação, prevenção e cuidado com a Amazônia e o Brasil, no seu celular e na sua língua.
+            Informação, prevenção e cuidado com a Amazônia e o Brasil, no seu celular e em linguagem simples.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center mt-7 anim-up-d3">
             <a
@@ -158,7 +164,7 @@ export default function Hero({ calm }) {
         </div>
         <div>
           <b className="block font-serif text-xl">Alerta de Queimada</b>
-          <p className="text-sm opacity-90 mb-1">Acompanhe os focos ativos e a qualidade do ar em tempo real.</p>
+          <p className="text-sm opacity-90 mb-1">Acompanhe os focos de calor e a qualidade do ar da região.</p>
           <a href="#risco" className="text-[#FB8C00] font-bold text-sm hover:underline">
             Abrir mapa 3D →
           </a>

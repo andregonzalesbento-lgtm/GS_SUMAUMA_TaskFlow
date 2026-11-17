@@ -30,31 +30,47 @@ const STEPS = [
 
 export default function RiverStory() {
   const containerRef = useRef(null);
+  const rowRefs = useRef([]);
   const [progress, setProgress] = useState(0);
   const [dims, setDims] = useState({ w: 800, h: 720 });
+  const [ys, setYs] = useState(() => STEPS.map((_, i) => ((i + 0.5) / STEPS.length) * 720));
 
   useEffect(() => {
-    const updateDims = () => {
-      if (!containerRef.current) return;
-      setDims({
-        w: containerRef.current.clientWidth,
-        h: containerRef.current.clientHeight,
-      });
-    };
-    const onScroll = () => {
-      if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      const p = Math.max(0, Math.min(1, (window.innerHeight * 0.62 - rect.top) / rect.height));
-      setProgress(p);
+    const el = containerRef.current;
+    if (!el) return;
+
+    // Mede o container e o centro real de cada etapa (a altura dos textos varia por tela).
+    const measure = () => {
+      const top = el.getBoundingClientRect().top;
+      setDims({ w: el.clientWidth, h: el.clientHeight });
+      setYs(
+        rowRefs.current.map((row) => {
+          if (!row) return 0;
+          const r = row.getBoundingClientRect();
+          return r.top - top + r.height / 2;
+        })
+      );
     };
 
-    updateDims();
-    onScroll();
-    window.addEventListener('resize', updateDims);
+    let frame = 0;
+    const readScroll = () => {
+      frame = 0;
+      const rect = el.getBoundingClientRect();
+      setProgress(Math.max(0, Math.min(1, (window.innerHeight * 0.62 - rect.top) / rect.height)));
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(readScroll);
+    };
+
+    measure();
+    readScroll();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => {
-      window.removeEventListener('resize', updateDims);
+      ro.disconnect();
       window.removeEventListener('scroll', onScroll);
+      if (frame) cancelAnimationFrame(frame);
     };
   }, []);
 
@@ -120,16 +136,19 @@ export default function RiverStory() {
 
         <div className="space-y-12 sm:space-y-16 relative z-10">
           {STEPS.map((step, idx) => {
-            const threshold = (idx + 0.35) / STEPS.length;
-            const active = progress >= threshold;
+            const nodeY = ys[idx] ?? 0;
+            // A etapa acende quando o preenchimento do rio alcança o nó dela.
+            const active = progress * dims.h >= nodeY - 24;
             const Icon = step.icon;
             const isRight = idx % 2 === 1;
-            const nodeY = ((idx + 0.5) / STEPS.length) * dims.h;
             const nodeX = getX(nodeY);
 
             return (
               <div
                 key={step.title}
+                ref={(node) => {
+                  rowRefs.current[idx] = node;
+                }}
                 className={`relative flex items-center min-h-[150px] ${
                   isRight ? 'md:justify-end' : 'md:justify-start'
                 }`}

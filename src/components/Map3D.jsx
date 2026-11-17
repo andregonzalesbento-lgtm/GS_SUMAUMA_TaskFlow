@@ -20,7 +20,7 @@ function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
 }
 
-export default function Map3D({ regions, selectedIdx, onSelect, statusText, onSpeak }) {
+export default function Map3D({ regions, selectedIdx, onSelect, status, onSpeak }) {
   const [is3D, setIs3D] = useState(true);
   const [rotation, setRotation] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
@@ -266,7 +266,7 @@ export default function Map3D({ regions, selectedIdx, onSelect, statusText, onSp
 
           <p className="text-xs text-[var(--mu)] mb-3">
             {Math.round(current.temp)} °C • umid. {Math.round(current.hum)}% • vento {Math.round(current.wind)} km/h
-            {current.hotspots != null ? ` • ${current.hotspots} focos (ontem)` : ''}
+            {current.hotspots != null ? ` • ${current.hotspots} ${current.hotspots === 1 ? 'foco' : 'focos'} de calor (INPE)` : ''}
           </p>
 
           <p className="text-sm sm:text-base font-medium leading-relaxed mb-4">{level.advice}</p>
@@ -280,7 +280,12 @@ export default function Map3D({ regions, selectedIdx, onSelect, statusText, onSp
             Ouvir recomendação
           </button>
 
-          <p className="text-[11px] text-[var(--mu)] mt-4 leading-snug">{statusText}</p>
+          {!status.live && !status.loading && (
+            <p className="text-xs font-bold text-[#D32F2F] mt-4" role="status">
+              Valores de demonstração: não são medições reais.
+            </p>
+          )}
+          <p className="text-[11px] text-[var(--mu)] mt-2 leading-snug">{status.text}</p>
         </div>
       </div>
     </section>

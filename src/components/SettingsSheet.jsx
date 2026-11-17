@@ -5,12 +5,17 @@ export default function SettingsSheet({ open, onClose, settings, onUpdate }) {
 
   useEffect(() => {
     if (!open) return;
+    // Guarda quem abriu o painel para devolver o foco ao fechar (acessibilidade por teclado).
+    const opener = document.activeElement;
     closeBtnRef.current?.focus();
     const onKeyDown = (e) => {
       if (e.key === 'Escape') onClose();
     };
     window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+      if (opener instanceof HTMLElement) opener.focus();
+    };
   }, [open, onClose]);
 
   if (!open) return null;
@@ -33,7 +38,7 @@ export default function SettingsSheet({ open, onClose, settings, onUpdate }) {
       <div
         onClick={onClose}
         aria-hidden="true"
-        className="fixed inset-0 bg-black/60 backdrop-blur-xs"
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm"
       />
 
       <aside
@@ -137,8 +142,11 @@ export default function SettingsSheet({ open, onClose, settings, onUpdate }) {
 
         <div className="mt-4 p-3.5 rounded-2xl bg-[var(--natureza)] text-white text-xs font-semibold">
           {channels.length
-            ? `Você será avisado por: ${channels.join(', ')}.`
-            : 'Escolha pelo menos um canal para receber avisos.'}
+            ? `Canais escolhidos: ${channels.join(', ')}.`
+            : 'Nenhum canal escolhido.'}
+          <span className="block font-normal mt-1 opacity-90">
+            Protótipo: a escolha fica salva neste aparelho, mas ainda não envia mensagens reais.
+          </span>
         </div>
       </aside>
     </div>
