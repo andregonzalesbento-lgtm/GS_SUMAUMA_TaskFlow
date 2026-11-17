@@ -1,25 +1,85 @@
-# SumaUma 2.0 — Informação que protege a natureza
+# SumaUma — Informação que protege a natureza
 
-Aplicação web desenvolvida em **React + Vite + Tailwind CSS** para a **FIAP Global Solution 2026.2**.
+Protótipo web da **Global Solution 2026.2 (FIAP) — CitizenTech**, feito em React + Vite + Tailwind CSS. Este repositório junta o trabalho de André (estrutura, hooks, integração com APIs, documentação) e de Kayto (mapa do Brasil em relevo, tema de cores e revisão de textos).
 
-## Como rodar no VS Code
-1. Extraia a pasta `sumauma-react` e abra no **VS Code**.
-2. Abra o terminal integrado (`Ctrl + '`) e instale as dependências:
-   ```bash
-   npm install
+## Ficha da CitizenTech
+
+> Itens marcados com **[CONFIRMAR]** dependem de decisão do grupo ou dos professores. Revise antes de entregar.
+
+| Campo | Resposta |
+|---|---|
+| **Nome da solução** | SumaUma |
+| **Cidade e bairro** | Manaus (AM) e municípios do sul do Amazonas (Lábrea, Apuí, Humaitá, Boca do Acre), com apoio a partir de São Paulo. **[CONFIRMAR bairro/comunidade]** |
+| **Cidadão beneficiado** | Morador de comunidade ribeirinha ou periférica que convive com fumaça e queimadas e tem pouco sinal de internet. **[CONFIRMAR perfil/pessoa real definida com os professores]** |
+| **Problema em uma frase** | Quem vive perto das queimadas na Amazônia recebe a informação sobre fogo e fumaça tarde, de forma dispersa e sem saber se a ajuda chegou. |
+| **Como funciona** | O site mostra o risco do ar por município (PM2,5 da Open-Meteo/CAMS e focos de calor do INPE), orienta em linguagem simples (com leitura em voz alta) e permite avisar sobre fogo ou fumaça. O aviso entra numa lista com etapas (enviado → brigada avisada → atendido → confirmado pelo morador) e fica guardado numa fila mesmo sem internet. |
+| **O que cada parte faz** | **André:** componentes React, hooks personalizados, integração com Open-Meteo/INPE e CRUD de avisos, notícias, acessibilidade e documentação. **Kayto:** mapa do Brasil em relevo (arrastável), tema de cores claro/escuro, floresta do Hero e revisão dos textos. **[CONFIRMAR divisão e PREENCHER demais integrantes]** |
+| **Link do repositório** | **[PREENCHER: link do GitHub privado, com os professores como colaboradores com permissão de escrita]** |
+| **Indicador de impacto** | Percentual de avisos que chegam à etapa "Confirmado" e tempo entre "Enviado" e "Atendido". O protótipo já registra essas etapas em cada aviso (campos `s` e `cf`). |
+| **ODS conectados** | ODS 3 (Saúde e bem-estar), ODS 13 (Ação contra a mudança global do clima) e ODS 15 (Vida terrestre). |
+
+## Como rodar
+
+```bash
+npm install
+npm run dev      # desenvolvimento em http://localhost:5173
+npm run build    # gera a pasta dist/
+npm run preview  # testa o build
+```
+
+Requer Node 18 ou superior. Pode ser aberto direto no VS Code (terminal integrado: `Ctrl + '`).
+
+## API REST externa (CRUD dos avisos)
+
+Os avisos usam uma API REST. Para ligar na nuvem:
+
+1. Crie uma conta em [mockapi.io](https://mockapi.io) e um projeto.
+2. Crie o recurso **`avisos`** com os campos: `k` (número), `z` (texto), `d` (texto), `s` (número), `cf` (número).
+3. Copie `.env.example` para `.env` e preencha:
    ```
-3. Inicie o servidor de desenvolvimento:
-   ```bash
-   npm run dev
+   VITE_API_URL=https://SEU_ID.mockapi.io/api/v1/avisos
    ```
-4. Acesse o link local exibido no terminal (geralmente `http://localhost:5173`).
+4. No deploy (Vercel/Netlify), cadastre a mesma variável `VITE_API_URL` nas configurações do projeto.
 
-## Estrutura de Pastas
-- `src/components/`: Componentes modulares (`Header`, `Hero`, `RiverStory`, `Map3D`, `SaoPauloHelp`, `NewsRadar`, `ReportForm`, `BottomDock`, `SettingsSheet`).
-- `src/services/api.js`: Integração com Open-Meteo (PM2,5 e clima), INPE Queimadas, CRUD de avisos (MockAPI ou LocalStorage) e Radar de Notícias Reais.
-- `src/data/regions.js`: Coordenadas e metadados das regiões monitoradas na Amazônia, ações de apoio de São Paulo e manchetes verificadas.
-- `src/data/brazilStates.js`: Limites estaduais simplificados do mapa do Brasil, usados na visualização em relevo. Dados do Code for America click_that_hood; licença MIT em `LICENSES/click-that-hood.txt`.
-- `src/index.css`: Tokens de tema (Claro, Escuro, Alto Contraste, Tamanhos de Fonte, Reduzir Movimento) e animações customizadas.
+Sem `VITE_API_URL`, o app funciona salvando os avisos só no navegador do aparelho (localStorage). Operações: `GET` (listar), `POST` (criar), `PUT` (atualizar etapa/confirmação) e `DELETE` (excluir).
 
-## Configuração Opcional da API de Avisos
-Abra `src/services/api.js` e cole a URL do seu recurso `avisos` do MockAPI.io na constante `API_URL`. Sem URL, o sistema funciona perfeitamente salvando no `localStorage` com fila offline.
+> **Atenção:** confirme com os professores se uma API simulada como o MockAPI conta como "API externa" no critério de avaliação.
+
+## Fontes de dados e limites
+
+| Dado | Fonte | Observação |
+|---|---|---|
+| PM2,5, temperatura, umidade, vento | [Open-Meteo](https://open-meteo.com/) (Air Quality e Forecast), dados CAMS/Copernicus, licença CC BY 4.0 | Atribuição obrigatória (está no rodapé). Valores de modelo, não de estação local. |
+| Focos de calor | [INPE Queimadas](https://terrabrasilis.dpi.inpe.br/queimadas/portal/) (CSV diário) | O navegador pode bloquear a leitura (CORS). Se falhar, o número simplesmente **não aparece**. |
+| Mapa do Brasil | Limites estaduais simplificados do projeto [click_that_hood](https://github.com/codeforamerica/click_that_hood) (Code for America), licença MIT | Arquivo `src/data/brazilStates.js`; licença em `LICENSES/click-that-hood.txt`. |
+| Notícias | 4 reportagens reais em `src/data/news.js` | Títulos, datas e links conferidos em 17/11/2026. Os resumos são do projeto. |
+
+Pontos de honestidade do protótipo:
+
+- Se a Open-Meteo não responder, o mapa mostra valores de demonstração com um aviso vermelho dizendo que **não são medições reais**.
+- Os níveis Baixo / Atenção / Perigo seguem um critério simples de PM2,5 (até 15, 15 a 50, acima de 50 µg/m³), inspirado nas diretrizes da OMS. **Não é** o Risco de Fogo oficial do INPE.
+- Alertas por WhatsApp/SMS/rádio, campanhas de São Paulo e boletim por e-mail são **simulações de interface**. Nada é enviado de verdade.
+- Em emergência, ligue **193** (Bombeiros), **199** (Defesa Civil) ou **0800 61 8080** (Ibama).
+
+## Estrutura
+
+```
+src/
+  components/   Header, Hero, RiverStory, Map3D, SaoPauloHelp, NewsRadar,
+                ReportForm, BottomDock, SettingsSheet (9 componentes)
+  hooks/        useSettings, useSpeech, useScrollY, useActiveSection,
+                useEnvironmentData, useReports (6 hooks personalizados)
+  services/     api.js (Open-Meteo, INPE e CRUD de avisos)
+  data/         regions.js (municípios e textos), news.js (notícias),
+                brazilStates.js (limites estaduais do mapa)
+```
+
+Lógica (hooks e serviços), dados e interface ficam em camadas separadas. A pasta `LICENSES/` guarda as licenças de terceiros.
+
+## Tecnologias
+
+React 18, Vite 5, Tailwind CSS 3, lucide-react. Acessibilidade: tamanho de letra, alto contraste, tema claro/escuro, redução de movimento, leitura em voz alta, navegação por teclado no painel de ajustes. `src/index.css` guarda os tokens de tema e as animações.
+
+## Uso de IA
+
+Veja [AI.md](./AI.md).
