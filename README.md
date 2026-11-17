@@ -43,14 +43,16 @@ Os avisos usam uma API REST. Para ligar na nuvem:
 
 Sem `VITE_API_URL`, o app funciona salvando os avisos só no navegador do aparelho (localStorage). Operações: `GET` (listar), `POST` (criar), `PUT` (atualizar etapa/confirmação) e `DELETE` (excluir).
 
-> **Atenção:** confirme com os professores se uma API simulada como o MockAPI conta como "API externa" no critério de avaliação.
+Para testar o CRUD sem abrir o site, rode `npm run test:api`: o script faz `POST`, `GET`, `PUT` e `DELETE` na URL do `.env`, mostra OK/FALHA de cada operação e apaga o aviso de teste.
+
+Os professores confirmaram que o MockAPI conta como API externa.
 
 ## Fontes de dados e limites
 
 | Dado | Fonte | Observação |
 |---|---|---|
 | PM2,5, temperatura, umidade, vento | [Open-Meteo](https://open-meteo.com/) (Air Quality e Forecast), dados CAMS/Copernicus, licença CC BY 4.0 | Atribuição obrigatória (está no rodapé). Valores de modelo, não de estação local. |
-| Focos de calor | [INPE Queimadas](https://terrabrasilis.dpi.inpe.br/queimadas/portal/) (CSV diário) | O navegador pode bloquear a leitura (CORS). Se falhar, o número simplesmente **não aparece**. |
+| Focos de calor | [INPE Queimadas](https://terrabrasilis.dpi.inpe.br/queimadas/portal/) (CSV diário) | O app lê o arquivo de ontem (ou de anteontem, se o de ontem ainda não saiu) e conta os focos por município do Amazonas. Em 17/11/2026 o servidor respondia com CORS liberado (`Access-Control-Allow-Origin: *`) e o CSV tinha as colunas `municipio` e `estado`. Se o INPE mudar isso, ficar fora do ar ou demorar mais de 8 s, o número de focos simplesmente **não aparece**; o resto do mapa continua. |
 | Mapa do Brasil | Limites estaduais simplificados do projeto [click_that_hood](https://github.com/codeforamerica/click_that_hood) (Code for America), licença MIT | Arquivo `src/data/brazilStates.js`; licença em `LICENSES/click-that-hood.txt`. |
 | Notícias | 4 reportagens reais em `src/data/news.js` | Títulos, datas e links conferidos em 17/11/2026. Os resumos são do projeto. |
 
