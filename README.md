@@ -56,8 +56,6 @@ Sem `VITE_API_URL`, o app funciona salvando os avisos só no navegador do aparel
 
 Para testar o CRUD sem abrir o site, rode `npm run test:api`: o script faz `POST`, `GET`, `PUT` e `DELETE` na URL do `.env`, mostra OK/FALHA de cada operação e apaga o aviso de teste.
 
-Os professores confirmaram que o MockAPI conta como API externa.
-
 ## Fontes de dados e limites
 
 | Dado | Fonte | Observação |
@@ -79,6 +77,7 @@ Pontos de honestidade do protótipo:
 
 - **Nenhum dado pessoal real** é usado no projeto. O formulário de aviso pede só o tipo, o município e um texto opcional, sem nome, telefone ou localização exata.
 - **Os avisos gravados no MockAPI são de teste**, criados pelo grupo para demonstrar o CRUD. Eles não chegam a bombeiros nem à Defesa Civil.
+- A URL da API fica visível no navegador, porque o front-end chama o MockAPI direto. Por isso a API guarda só avisos de teste, sem dado pessoal. O arquivo `.env` real não é versionado; o repositório tem só o `.env.example`, com a variável vazia.
 - O **VLibras** é um serviço externo do Governo Federal, carregado de `vlibras.gov.br`. O site funciona normalmente sem ele, e o formulário de avisos não envia dados pessoais a ninguém.
 - O campo de e-mail do boletim é uma **simulação**: o texto digitado fica só no navegador de quem usa (localStorage) e não é enviado a lugar nenhum.
 - **Origem dos dados:** qualidade do ar e clima vêm da [Open-Meteo](https://open-meteo.com/) (modelo CAMS/Copernicus, CC BY 4.0); focos de calor vêm do [INPE Queimadas](https://terrabrasilis.dpi.inpe.br/queimadas/portal/) (dados públicos); as notícias de `src/data/news.js` são reportagens públicas, cada uma com link para a fonte original. Detalhes na seção "Fontes de dados e limites".

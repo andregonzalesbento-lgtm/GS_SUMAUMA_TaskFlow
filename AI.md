@@ -96,6 +96,7 @@ O que foi de fato conferido, e não apenas aceito:
 **Riscos que continuam:**
 
 - A IA escreve com segurança coisas que não são verdade. Todo dado factual precisa de conferência humana.
+- O protótipo não tem autenticação nem proteção contra abuso na API; em produção seria preciso um back-end intermediário entre o site e o banco de avisos.
 - É um protótipo. Os avisos não chegam a bombeiros reais, e botões de São Paulo, canais WhatsApp/SMS/rádio e boletim são simulações de interface.
 - Quando a Open-Meteo não responde, o mapa usa dados de demonstração, sempre indicados na tela.
 - Os níveis Baixo / Atenção / Perigo seguem um critério simples de PM2,5. Não são o Risco de Fogo oficial do INPE.
