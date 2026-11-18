@@ -140,13 +140,10 @@ export default function SettingsSheet({ open, onClose, settings, onUpdate }) {
           })}
         </div>
 
-        <div className="mt-4 p-3.5 rounded-2xl bg-[var(--natureza)] text-white text-xs font-semibold">
+        <div role="status" className="mt-4 p-3.5 rounded-2xl bg-[var(--natureza)] text-white text-xs font-semibold">
           {channels.length
             ? `Canais escolhidos: ${channels.join(', ')}.`
             : 'Nenhum canal escolhido.'}
-          <span className="block font-normal mt-1 opacity-90">
-            Protótipo: a escolha fica salva neste aparelho, mas ainda não envia mensagens reais.
-          </span>
         </div>
       </aside>
     </div>
