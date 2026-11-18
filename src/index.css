@@ -89,7 +89,7 @@ html {
 }
 html.big { font-size: 115%; }
 html.xl { font-size: 128%; }
-html.hc { --ln: var(--ink); --campo: var(--ink); --mu: var(--ink); }
+:root.hc { --ln: var(--ink); --campo: var(--ink); --mu: var(--ink); }
 
 :root {
   --foco: var(--natureza-texto);
