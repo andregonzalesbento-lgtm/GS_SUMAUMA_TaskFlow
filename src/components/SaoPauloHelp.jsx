@@ -31,7 +31,7 @@ export default function SaoPauloHelp({ onNotify }) {
   return (
     <section id="sp-ajuda" className="py-16 px-4 max-w-5xl mx-auto">
       <div className="text-center max-w-2xl mx-auto mb-8">
-        <span className="inline-block text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[color:var(--natureza)]/15 text-[var(--natureza-texto)] mb-2">
+        <span className="inline-block text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[color-mix(in_srgb,var(--natureza)_15%,var(--bg))] text-[var(--natureza-texto)] mb-2">
           São Paulo + Amazônia
         </span>
         <h2 className="font-serif font-semibold text-[clamp(28px,4.2vw,42px)] leading-tight mb-2">
@@ -56,7 +56,7 @@ export default function SaoPauloHelp({ onNotify }) {
               key={item.id}
               className={`rounded-3xl border p-6 flex flex-col justify-between transition-all ${
                 active
-                  ? 'border-[var(--natureza)] bg-[color:var(--natureza)]/10 shadow-md'
+                  ? 'border-[var(--natureza)] bg-[color-mix(in_srgb,var(--natureza)_10%,var(--bg))] shadow-md'
                   : 'border-[var(--ln)] bg-[var(--sf)]'
               }`}
             >
@@ -87,7 +87,7 @@ export default function SaoPauloHelp({ onNotify }) {
                   className={`w-full rounded-full py-2.5 px-4 text-sm font-bold transition cursor-pointer ${
                     active
                       ? 'bg-[var(--natureza)] text-white'
-                      : 'border-2 border-[var(--natureza)] text-[var(--ink)] hover:bg-[color:var(--natureza)]/10'
+                      : 'border-2 border-[var(--natureza)] text-[var(--ink)] hover:bg-[color-mix(in_srgb,var(--natureza)_10%,var(--bg))]'
                   }`}
                 >
                   {active ? 'Ativada ✓' : item.cta}

@@ -75,7 +75,7 @@ O que foi de fato conferido, e não apenas aceito:
 | Dados reais misturados com dados de demonstração: o mapa mostrava focos de calor inventados quando o INPE falhava. | Agora, sem resposta do INPE, o número não aparece. Quando o ar usa valores de demonstração, há um aviso na tela. |
 | Plural errado: "1 focos de calor". | Corrigido para "1 foco". |
 | O verde de texto e o vermelho de erro não tinham contraste suficiente no tema escuro (2,87 e 2,96, quando o mínimo é 4,5). | Criados tokens próprios para texto, com contraste acima de 6. |
-| Classes Tailwind inválidas, que o Tailwind ignorava em silêncio. | A maioria foi corrigida. Duas classes com opacidade sobre `var()` em `SaoPauloHelp.jsx` ainda não geram efeito. |
+| Classes Tailwind inválidas, que o Tailwind ignorava em silêncio. | Foram corrigidas. As duas últimas, com opacidade sobre `var()` em `SaoPauloHelp.jsx`, passaram a usar `color-mix()` com as variáveis do tema, com contraste conferido nos dois temas (acima de 5,6:1). |
 | O teste da API supôs que o MockAPI responderia 404 depois de excluir um aviso, mas ele responde 500. | O teste passou a conferir se o aviso sumiu da lista, em vez de depender do código de resposta. |
 | A trilha do rio posicionava os pontos por divisão igual da altura, e não pela posição real dos textos. | Passou a usar medidas reais com `ResizeObserver`. |
 
