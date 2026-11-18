@@ -1,5 +1,3 @@
-// URL do recurso "avisos" da API REST (ex.: https://SEU_ID.mockapi.io/api/v1/avisos).
-// Defina em .env: VITE_API_URL=... (veja .env.example). Vazio = salva só neste aparelho.
 export const API_URL = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
 
 const TIMEOUT_MS = 8000;
@@ -23,7 +21,6 @@ function norm(s) {
     .trim();
 }
 
-// ---------- Qualidade do ar e clima (Open-Meteo / CAMS, CC BY 4.0) ----------
 export async function fetchEnvironmentData(regions) {
   const latList = regions.map((r) => r.lat).join(',');
   const lonList = regions.map((r) => r.lon).join(',');
@@ -54,7 +51,6 @@ export async function fetchEnvironmentData(regions) {
   });
 }
 
-// ---------- Focos de calor do dia (INPE, CSV diário) ----------
 function stampDaysAgo(days) {
   const d = new Date(Date.now() - days * 864e5);
   return (
@@ -85,8 +81,6 @@ async function fetchInpeFor(stamp) {
   return { counts, dateLabel: `${stamp.slice(6)}/${stamp.slice(4, 6)}` };
 }
 
-// Tenta o arquivo de ontem e, se ainda não foi publicado, o de anteontem.
-// O navegador pode bloquear a leitura (CORS); nesse caso o erro é tratado pelo chamador.
 export async function fetchInpeHotspots() {
   try {
     return await fetchInpeFor(stampDaysAgo(1));
@@ -95,7 +89,6 @@ export async function fetchInpeHotspots() {
   }
 }
 
-// ---------- CRUD dos avisos (API REST externa ou localStorage) ----------
 const LOCAL_KEY = 'suma_reports_v2';
 
 function readLocal() {

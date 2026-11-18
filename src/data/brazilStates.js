@@ -1,4 +1,3 @@
-// Simplified state boundaries from Code for America click_that_hood (MIT); see LICENSES/click-that-hood.txt.
 export const MAP_BOUNDS = Object.freeze({"minLon":-73.990238,"maxLon":-32.390875,"minLat":-33.751358,"maxLat":5.270972});
 export const MAP_BOX = Object.freeze({ x: 35, y: 25, width: 450, height: 350 });
 export const BRAZIL_STATES = [

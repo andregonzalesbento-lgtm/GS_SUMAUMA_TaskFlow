@@ -8,9 +8,6 @@ const norm = (s) =>
     .replace(/[̀-ͯ]/g, '')
     .toUpperCase();
 
-// Busca ar/clima (Open-Meteo) e focos de calor (INPE) em paralelo.
-// Nunca mistura dado real com inventado: se o INPE falhar, hotspots fica null (não aparece).
-// Se a Open-Meteo falhar, os valores de demonstração ficam marcados com live = false.
 export function useEnvironmentData() {
   const [regions, setRegions] = useState(REGIONS);
   const [status, setStatus] = useState({

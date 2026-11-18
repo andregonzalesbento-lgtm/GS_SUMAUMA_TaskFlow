@@ -1,5 +1,3 @@
-// pm, temp, hum e wind abaixo são VALORES DE DEMONSTRAÇÃO, usados só se a Open-Meteo falhar.
-// hotspots começa nulo e só recebe número quando o INPE responde.
 export const REGIONS = [
   { id: 'manaus', name: 'Manaus', x: 52, y: 24, lat: -3.12, lon: -60.02, pm: 22, temp: 32, hum: 62, wind: 7, hotspots: null },
   { id: 'labrea', name: 'Lábrea', x: 35, y: 42, lat: -7.26, lon: -64.80, pm: 96, temp: 35, hum: 38, wind: 9, hotspots: null },

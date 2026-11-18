@@ -37,7 +37,6 @@ export default function App() {
     }
   };
 
-  // Cada ação do CRUD devolve { ok, message }; aqui só acrescentamos a fala opcional.
   const withSpeech = (fn) => async (...args) => {
     const result = await fn(...args);
     if (result.ok) speak(result.message);

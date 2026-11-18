@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 
-// Informa qual seção está no meio da tela (para destacar o item da barra inferior).
 export function useActiveSection(ids) {
   const [active, setActive] = useState(ids[0]);
   const key = ids.join('|');

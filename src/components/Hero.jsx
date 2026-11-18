@@ -68,7 +68,6 @@ export default function Hero({ calm }) {
       }
       animId = requestAnimationFrame(draw);
     };
-    // Com "reduzir movimento" ligado não há animação nenhuma.
     if (calm) ctx.clearRect(0, 0, w, h);
     else draw();
 

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 
-// Posição de rolagem (limitada a 1,2 altura de tela), atualizada no máximo 1x por quadro.
 export function useScrollY() {
   const [y, setY] = useState(0);
 

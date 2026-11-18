@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 const KEY = 'suma_sw_v2';
 const DEFAULTS = { wa: true };
 
-// Preferências de acessibilidade e canais. Aplica classes no <html> e persiste no aparelho.
 export function useSettings() {
   const [settings, setSettings] = useState(() => {
     try {
@@ -26,7 +25,6 @@ export function useSettings() {
     try {
       localStorage.setItem(KEY, JSON.stringify(settings));
     } catch {
-      /* armazenamento indisponível: segue sem persistir */
     }
   }, [settings]);
 

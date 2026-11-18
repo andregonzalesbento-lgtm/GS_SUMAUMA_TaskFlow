@@ -15,11 +15,9 @@ function saveQueue(q) {
   try {
     localStorage.setItem(QUEUE_KEY, JSON.stringify(q));
   } catch {
-    /* sem armazenamento: a fila vale só nesta sessão */
   }
 }
 
-// CRUD dos avisos + fila offline. Cada ação devolve { ok, message } e nunca lança erro.
 export function useReports(offline) {
   const [reports, setReports] = useState([]);
   const [queue, setQueue] = useState(readQueue);
@@ -39,7 +37,6 @@ export function useReports(offline) {
     refresh();
   }, [refresh]);
 
-  // Quando o "sem sinal" termina, envia a fila um por um; o que falhar continua na fila.
   useEffect(() => {
     if (offline || queue.length === 0 || flushing.current) return;
     flushing.current = true;

@@ -1,5 +1,3 @@
-// Matérias reais, conferidas manualmente (título, data e conteúdo) em 17/11/2026.
-// Os resumos descrevem apenas o que a matéria diz. Para atualizar, edite este arquivo.
 export const NEWS_CHECKED_AT = '17/11/2026';
 
 export const NEWS = [

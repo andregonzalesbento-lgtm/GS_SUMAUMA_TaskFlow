@@ -1,5 +1,3 @@
-// Testa o CRUD do recurso "avisos" na API externa: POST, GET, PUT e DELETE.
-// Uso: npm run test:api  (lê VITE_API_URL do .env ou do ambiente)
 import { existsSync, readFileSync } from 'node:fs';
 
 function readEnvUrl() {

@@ -39,7 +39,6 @@ export default function RiverStory() {
     const el = containerRef.current;
     if (!el) return;
 
-    // Mede o container e o centro real de cada etapa (a altura dos textos varia por tela).
     const measure = () => {
       const top = el.getBoundingClientRect().top;
       setDims({ w: el.clientWidth, h: el.clientHeight });
@@ -137,7 +136,6 @@ export default function RiverStory() {
         <div className="space-y-12 sm:space-y-16 relative z-10">
           {STEPS.map((step, idx) => {
             const nodeY = ys[idx] ?? 0;
-            // A etapa acende quando o preenchimento do rio alcança o nó dela.
             const active = progress * dims.h >= nodeY - 24;
             const Icon = step.icon;
             const isRight = idx % 2 === 1;
