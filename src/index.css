@@ -91,6 +91,20 @@ html.big { font-size: 115%; }
 html.xl { font-size: 128%; }
 html.hc { --ln: var(--ink); --campo: var(--ink); --mu: var(--ink); }
 
+:root {
+  --foco: var(--natureza-texto);
+  --vlibras-btn-focus-visible-outline: 3px solid var(--foco);
+  --vlibras-btn-focus-visible-shadow: 0 0 0 5px var(--sf);
+}
+.zona-escura { --foco: #A5D6A7; }
+
+:focus-visible {
+  outline: 3px solid var(--foco);
+  outline-offset: 2px;
+}
+
+html.painel-aberto #vlibras-access-wrapper { display: none !important; }
+
 body {
   margin: 0;
   background-color: var(--bg);

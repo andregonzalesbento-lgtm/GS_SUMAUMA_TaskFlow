@@ -46,8 +46,14 @@ export default function App() {
   return (
     <>
       <div inert={settingsOpen ? '' : undefined}>
+        <a
+          href="#conteudo"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:px-4 focus:py-2.5 focus:rounded-full focus:bg-[var(--sf)] focus:text-[var(--ink)] focus:font-bold focus:text-sm focus:border-2 focus:border-[var(--foco)] focus:shadow-lg"
+        >
+          Pular para o conteúdo
+        </a>
         <Header />
-        <main>
+        <main id="conteudo" tabIndex={-1} className="focus:outline-none">
           <Hero calm={!!settings.calm} />
           <RiverStory />
           <Map3D

@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function Header() {
   return (
-    <header className="fixed top-0 left-0 right-0 z-40 flex justify-center pointer-events-none pt-3 px-4">
+    <header className="zona-escura fixed top-0 left-0 right-0 z-40 flex justify-center pointer-events-none pt-3 px-4">
       <a
         href="#top"
         aria-label="SumaUma, início"

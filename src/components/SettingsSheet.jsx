@@ -7,6 +7,8 @@ export default function SettingsSheet({ open, onClose, settings, onUpdate }) {
     if (!open) return;
     // Guarda quem abriu o painel para devolver o foco ao fechar (acessibilidade por teclado).
     const opener = document.activeElement;
+    const html = document.documentElement;
+    html.classList.add('painel-aberto');
     closeBtnRef.current?.focus();
     const onKeyDown = (e) => {
       if (e.key === 'Escape') onClose();
@@ -14,6 +16,7 @@ export default function SettingsSheet({ open, onClose, settings, onUpdate }) {
     window.addEventListener('keydown', onKeyDown);
     return () => {
       window.removeEventListener('keydown', onKeyDown);
+      html.classList.remove('painel-aberto');
       if (opener instanceof HTMLElement) opener.focus();
     };
   }, [open, onClose]);

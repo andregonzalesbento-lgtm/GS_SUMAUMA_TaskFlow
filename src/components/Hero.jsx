@@ -84,7 +84,7 @@ export default function Hero({ calm }) {
     <>
       <section
         id="top"
-        className="relative min-h-[96svh] overflow-hidden flex items-center justify-center text-center text-[#F5F5DC]"
+        className="zona-escura relative min-h-[96svh] overflow-hidden flex items-center justify-center text-center text-[#F5F5DC]"
         style={{ background: 'radial-gradient(120% 80% at 78% 105%, #7a3a0a 0%, #0B2E1B 55%)' }}
       >
         <canvas ref={canvasRef} aria-hidden="true" className="absolute inset-0 w-full h-full pointer-events-none" />
@@ -158,7 +158,7 @@ export default function Hero({ calm }) {
         </div>
       </section>
 
-      <div className="relative z-20 max-w-xl w-[calc(100%-32px)] -mt-11 mx-auto p-5 rounded-3xl border border-[#2E7D32]/60 bg-gradient-to-br from-[#123F27] to-[#0B2E1B] text-[#F5F5DC] flex items-center gap-4 shadow-xl">
+      <div className="zona-escura relative z-20 max-w-xl w-[calc(100%-32px)] -mt-11 mx-auto p-5 rounded-3xl border border-[#2E7D32]/60 bg-gradient-to-br from-[#123F27] to-[#0B2E1B] text-[#F5F5DC] flex items-center gap-4 shadow-xl">
         <div className="w-12 h-12 rounded-2xl bg-[#FB8C00] text-[#1B1F24] flex items-center justify-center shrink-0">
           <AlertTriangle className="w-7 h-7" />
         </div>

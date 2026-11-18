@@ -12,7 +12,7 @@ export default function BottomDock({ activeSection, onOpenSettings }) {
   return (
     <nav
       aria-label="Navegação principal"
-      className="fixed left-1/2 bottom-3.5 -translate-x-1/2 z-50 flex items-center gap-1 p-1.5 rounded-[30px] bg-[#0B2E1B]/85 backdrop-blur-xl border border-[#F5F5DC]/20 shadow-2xl"
+      className="zona-escura fixed left-1/2 bottom-3.5 -translate-x-1/2 z-50 flex items-center gap-1 p-1.5 rounded-[30px] bg-[#0B2E1B]/85 backdrop-blur-xl border border-[#F5F5DC]/20 shadow-2xl"
     >
       {navItems.map((item) => {
         const Icon = item.icon;
