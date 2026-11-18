@@ -110,7 +110,6 @@ body {
   background-color: var(--bg);
   color: var(--ink);
   font-family: "IBM Plex Sans", system-ui, sans-serif;
-  padding-bottom: 112px;
   transition: background-color 0.3s, color 0.3s;
 }
 

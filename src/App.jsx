@@ -8,6 +8,7 @@ import NewsRadar from './components/NewsRadar';
 import ReportForm from './components/ReportForm';
 import BottomDock from './components/BottomDock';
 import SettingsSheet from './components/SettingsSheet';
+import Footer from './components/Footer';
 import { useSettings } from './hooks/useSettings';
 import { useSpeech } from './hooks/useSpeech';
 import { useActiveSection } from './hooks/useActiveSection';
@@ -94,17 +95,7 @@ export default function App() {
           </div>
         </main>
 
-        <footer className="px-4 pt-4 pb-10 text-center text-xs text-[var(--mu)] max-w-3xl mx-auto leading-relaxed">
-          SumaUma é um protótipo acadêmico da FIAP (Global Solution 2026.2). Qualidade do ar e clima:{' '}
-          <a className="underline" href="https://open-meteo.com/" target="_blank" rel="noreferrer">
-            Open-Meteo
-          </a>{' '}
-          com dados do Copernicus Atmosphere Monitoring Service (CC BY 4.0). Focos de calor:{' '}
-          <a className="underline" href="https://terrabrasilis.dpi.inpe.br/queimadas/portal/" target="_blank" rel="noreferrer">
-            INPE
-          </a>
-          . Orientações ilustrativas, sem substituir Defesa Civil, bombeiros ou brigadas.
-        </footer>
+        <Footer />
       </div>
 
       <BottomDock activeSection={activeSection} onOpenSettings={() => setSettingsOpen(true)} />
