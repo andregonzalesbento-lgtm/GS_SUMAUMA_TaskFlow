@@ -11,6 +11,7 @@
 | **Como funciona** | O site mostra o risco do ar por município (PM2,5 da Open-Meteo/CAMS e focos de calor do INPE), orienta em linguagem simples (com leitura em voz alta) e permite avisar sobre fogo ou fumaça. O aviso entra numa lista com etapas (enviado → brigada avisada → atendido → confirmado pelo morador) e fica guardado numa fila mesmo sem internet. |
 | **O que cada parte faz** | **André Gonzales Bento:** Front-end Design + Web Development (Interface e Interação). Componentes React, hooks personalizados, integração com as APIs (Open-Meteo, INPE e CRUD de avisos), notícias, acessibilidade e documentação.<br>**Samuel Kayto Takiuchi (Kayto):** Front-end Design + Web Development (Interface e Interação). Mapa do Brasil em relevo, tema de cores claro/escuro, floresta do Hero e revisão dos textos do site.<br>**Richard Henrique Dias dos Santos:** Computational Thinking with Python (Lógica).<br>**Isabella Rodrigues Afonso:** Differentiated Problem Solving (Matemática), Software & Total Experience Design (Experiência) e Storytelling & Inspiração Empreendedora (Pitch).<br>**Nicholas Franco Vidal:** Edge Computing & Computer Systems (Sensor). |
 | **Link do repositório** | https://github.com/andregonzalesbento-lgtm/GS_SUMAUMA_TaskFlow |
+| **Link do deploy** | https://gs-sumauma-taskflow.vercel.app |
 | **Indicador de impacto** | Tempo entre a identificação de uma necessidade e o encaminhamento, e percentual de relatos acompanhados até a resposta. O protótipo já registra as etapas de cada aviso (campos `s` e `cf`). |
 | **ODS conectados** | ODS 3 — Saúde e bem-estar (principal); ODS 10 — Redução das desigualdades; ODS 13 — Ação contra a mudança global do clima. |
 
@@ -26,6 +27,10 @@ Protótipo web da **Global Solution 2026.2 (FIAP) — CitizenTech**, feito em Re
 - Opcional: uma URL do MockAPI no arquivo `.env` (veja "API REST externa" abaixo). Sem ela, o app funciona salvando os avisos só no navegador.
 
 ## Como rodar
+
+**Site publicado:** https://gs-sumauma-taskflow.vercel.app (Vercel; a cada push na `main` sai um deploy novo).
+
+Para rodar no seu computador:
 
 ```bash
 git clone https://github.com/andregonzalesbento-lgtm/GS_SUMAUMA_TaskFlow.git
