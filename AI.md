@@ -8,7 +8,7 @@ Este registro documenta as interações de IA do André no projeto; os demais in
 | Ferramenta | Onde foi usada | Para quê |
 |---|---|---|
 | Claude (Anthropic) | Chat e sessão de código do Claude | Ideias de seções e design, revisão do código, refatoração da lógica em hooks personalizados, mesclagem do código do Kayto com o do André, verificação das notícias e documentação |
-| Claude Code (Anthropic) | Extensão do VS Code, dentro deste repositório | Teste do CRUD da API, teste da interface no navegador, correções de contraste, ajustes de desempenho, README, AI.md e commits |
+| Claude Code (Anthropic) | Extensão do VS Code, dentro deste repositório | Teste do CRUD da API, teste da interface no navegador, correções de contraste, ajustes de desempenho, VLibras, rodapé, barra inferior, README, AI.md e commits |
 
 O André não usou nenhuma outra ferramenta de IA no projeto.
 
@@ -24,6 +24,9 @@ Exemplos representativos. Os prompts estão transcritos como foram enviados.
 | 4 | "claude tenho esse zip vc consegue ler, dei um upgrade no projeto consegue ver?" | O Claude leu o código e apontou problemas: sem hooks personalizados, notícias não verificadas, classes Tailwind inválidas e dados reais misturados com dados de demonstração. |
 | 5 | "faça todas essas substituições incluindo as coisas que faltam e trocando a imagem pela que eu te mandei no lugar dessa inventado e sobre as links de noticias troque para mim por verdadeiros eu creio que seja verdadeiro sim as manchetes mas verifique" | O Claude não conseguiu confirmar as 3 manchetes originais e as substituiu por 4 reportagens reais conferidas. Também criou os 6 hooks, a API com `VITE_API_URL` e a documentação. |
 | 6 | "Junte com esse codigo aqui, eu quero que junte eesse zip sobreponto o antigo, mas de uma forma mesclando e substituindo sabe? quero tudo junto em uma coisa pq tinha parte minha junto com a dele" | O Claude mesclou o código do Kayto com o do André por comparação de três vias (as duas versões e o projeto original como base) e resolveu os conflitos arquivo por arquivo. |
+| 7 | "pense em como poderiamos ser mais inclusivos meu professor de Web deu a ideia de usarmos isso aqui: https://www.gov.br/governodigital/pt-br/acessibilidade-e-usuario/vlibras para adcionar libras ao nosso site, seria muito bacana, queria deixar o link do github do projeto tambem em algum canto, nossos nomes tambem em colaaboradores sabe que fica no fim da pagina de todo site, tipo um com APIs utilizadas, participantes, sobre o grupo, de onde surgiiu a ideia, link para o github do projeto" | O Claude integrou o widget VLibras e criou o rodapé com APIs, participantes, sobre o grupo, origem da ideia e link do GitHub. |
+| 8 | "outras duas coisas eu queria ddeixar o botão da home bar mais bonito esteticamente consegue para mim? e com base nesse print eu queria que voce ajustasse ele para dois modos ou tirasse essa informação ou solucionasse esse problema, pode ser? estou falando sobre esse nenhum canal escolhido" | Redesenho da barra inferior com os tokens do tema e separação em dois estados da mensagem de canais. |
+| 9 | "faça o seguinte analise como ficou no github as pastas se subiu alguma que exponha chaves de api etc algo assim mais drastico que desconte nota, faça os ajustes que voce julga necessario, dentro desse prompt faça tambem algo, preciso que voce tire todas as "mensagens" que voce deixa em forma de comentario dentro do codigo" | Auditoria do repositório (nenhum segredo encontrado) e remoção dos comentários do código. |
 
 ## 3. Aplicação no projeto
 
@@ -39,6 +42,11 @@ Exemplos representativos. Os prompts estão transcritos como foram enviados.
 | `scripts/test-api.mjs` | Script `npm run test:api`, que faz POST, GET, PUT e DELETE na API e apaga o que criou (Claude Code). |
 | `src/index.css` e componentes | Tokens `--erro`, `--campo` e `--natureza-texto` para atingir o contraste mínimo nos dois temas, e `<main>` em `App.jsx` (Claude Code). |
 | `public/logo.webp` e `index.html` | Logo reduzido para 96 × 96 px e pré-conexão com as fontes (Claude Code). |
+| `index.html` (VLibras) | Integração do widget VLibras fora do `#root`, carregado sem bloquear a página, escondido enquanto o painel "Do seu jeito" está aberto (Claude Code). |
+| `src/components/Footer.jsx` e `src/data/about.js` | Rodapé com origem da ideia, grupo, participantes, APIs, outros recursos e link do GitHub; os textos ficam em `about.js` (Claude Code). |
+| `src/components/BottomDock.jsx` | Redesenho da barra inferior com os tokens do tema, item ativo marcado com `aria-current` e botão Avisar em destaque (Claude Code). |
+| `src/components/SettingsSheet.jsx` | Dois estados para a caixa de canais (com e sem canal), anunciados por leitor de tela (Claude Code). |
+| `src/App.jsx` e `src/index.css` | Link "Pular para o conteúdo" e anel de foco visível nos dois temas (Claude Code). |
 | `README.md` e `AI.md` | Redação e revisão dos textos, a partir das decisões do grupo. |
 
 **Decisões humanas** (não foram da IA):
@@ -47,7 +55,9 @@ Exemplos representativos. Os prompts estão transcritos como foram enviados.
 - a paleta de cores, o tema claro/escuro e o logo;
 - os textos finais do site;
 - a escolha das notícias que entram no site;
-- a divisão de tarefas do grupo.
+- a divisão de tarefas do grupo;
+- a ideia de usar o VLibras, que veio do professor de Web Development;
+- o conteúdo do rodapé e a escolha de mostrar os nomes dos integrantes.
 
 ## 4. Validação das respostas
 
@@ -62,6 +72,10 @@ O que foi de fato conferido, e não apenas aceito:
 | Lighthouse | Build local, 17/11/2026 | Acessibilidade 100, Boas práticas 100, Desempenho 77 |
 | Notícias | Cada uma das 4 páginas foi aberta e título, data e conteúdo foram comparados com `src/data/news.js` | Conferidas em 17/11/2026 |
 | Interface com a API real | Teste automático com Playwright no Chrome, tela de 390 px, contra o build local ligado ao MockAPI | 11/11 verificações OK: frase "Aviso salvo no servidor.", envio do aviso, duas vezes "Simular etapa", "Confirmar atendimento", "Excluir", sem erros no console e API vazia no fim |
+| VLibras e teclado (18/11/2026) | Playwright no Chrome, telas de 390 px e 1280 px, temas claro e escuro e alto contraste | Botão do VLibras presente e sem cobrir a barra inferior nem o Avisar; escondido com o painel aberto; "Pular para o conteúdo" leva o foco ao `<main>`; anel de foco de 3 px em links e chaves |
+| VLibras fora do ar (18/11/2026) | Mesmo teste com `vlibras.gov.br` bloqueado | Aviso enviado e excluído normalmente, nenhuma exceção de JavaScript, nenhum resto do widget na página |
+| Rodapé, barra e painel (18/11/2026) | Capturas e medidas automáticas nas mesmas telas e temas | Contraste mínimo de texto medido no navegador: rodapé 6,23:1 e painel 5,13:1; barra 4,68:1 no pior caso calculado (tema escuro sobre área clara); alvos de toque da barra de 62 × 52 px e rótulos de 11 px; fim do rodapé 29 px acima da barra; textos do painel com 14 px |
+| Lighthouse com o VLibras (18/11/2026) | Build local, modo celular | Acessibilidade 100, Boas práticas 96, Desempenho 77. Os 4 pontos a menos em Boas práticas vêm de uma imagem interna do próprio widget VLibras |
 
 **Ainda não testado:** celular físico, leitores de tela e o site publicado (deploy).
 

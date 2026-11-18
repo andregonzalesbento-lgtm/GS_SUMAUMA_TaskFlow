@@ -66,6 +66,7 @@ Os professores confirmaram que o MockAPI conta como API externa.
 | Focos de calor | [INPE Queimadas](https://terrabrasilis.dpi.inpe.br/queimadas/portal/) (CSV diário) | O app lê o arquivo de ontem (ou de anteontem, se o de ontem ainda não saiu) e conta os focos por município do Amazonas. Em 17/11/2026 o servidor respondia com CORS liberado (`Access-Control-Allow-Origin: *`) e o CSV tinha as colunas `municipio` e `estado`. Se o INPE mudar isso, ficar fora do ar ou demorar mais de 8 s, o número de focos simplesmente **não aparece**; o resto do mapa continua. |
 | Mapa do Brasil | Limites estaduais simplificados do projeto [click_that_hood](https://github.com/codeforamerica/click_that_hood) (Code for America), licença MIT | Arquivo `src/data/brazilStates.js`; licença em `LICENSES/click-that-hood.txt`. |
 | Notícias | 4 reportagens reais em `src/data/news.js` | Títulos, datas e links conferidos em 17/11/2026. Os resumos são do projeto. |
+| Tradução para Libras | [VLibras](https://www.gov.br/governodigital/pt-br/acessibilidade-e-usuario/vlibras), serviço do Governo Federal, carregado de `vlibras.gov.br` | Tradução automática; **não substitui um intérprete humano**. O script é carregado sem bloquear a página e, se o serviço estiver fora do ar ou bloqueado, o botão simplesmente não aparece. |
 
 Pontos de honestidade do protótipo:
 
@@ -78,6 +79,7 @@ Pontos de honestidade do protótipo:
 
 - **Nenhum dado pessoal real** é usado no projeto. O formulário de aviso pede só o tipo, o município e um texto opcional, sem nome, telefone ou localização exata.
 - **Os avisos gravados no MockAPI são de teste**, criados pelo grupo para demonstrar o CRUD. Eles não chegam a bombeiros nem à Defesa Civil.
+- O **VLibras** é um serviço externo do Governo Federal, carregado de `vlibras.gov.br`. O site funciona normalmente sem ele, e o formulário de avisos não envia dados pessoais a ninguém.
 - O campo de e-mail do boletim é uma **simulação**: o texto digitado fica só no navegador de quem usa (localStorage) e não é enviado a lugar nenhum.
 - **Origem dos dados:** qualidade do ar e clima vêm da [Open-Meteo](https://open-meteo.com/) (modelo CAMS/Copernicus, CC BY 4.0); focos de calor vêm do [INPE Queimadas](https://terrabrasilis.dpi.inpe.br/queimadas/portal/) (dados públicos); as notícias de `src/data/news.js` são reportagens públicas, cada uma com link para a fonte original. Detalhes na seção "Fontes de dados e limites".
 
@@ -86,19 +88,32 @@ Pontos de honestidade do protótipo:
 ```
 src/
   components/   Header, Hero, RiverStory, Map3D, SaoPauloHelp, NewsRadar,
-                ReportForm, BottomDock, SettingsSheet (9 componentes)
+                ReportForm, Footer, BottomDock, SettingsSheet (10 componentes)
   hooks/        useSettings, useSpeech, useScrollY, useActiveSection,
                 useEnvironmentData, useReports (6 hooks personalizados)
   services/     api.js (Open-Meteo, INPE e CRUD de avisos)
   data/         regions.js (municípios e textos), news.js (notícias),
+                about.js (textos do rodapé, participantes e APIs),
                 brazilStates.js (limites estaduais do mapa)
 ```
+
+O widget VLibras é carregado no `index.html`, fora do `#root`, para o React não remontá-lo.
 
 Lógica (hooks e serviços), dados e interface ficam em camadas separadas. A pasta `LICENSES/` guarda as licenças de terceiros.
 
 ## Tecnologias
 
-React 18, Vite 5, Tailwind CSS 3, lucide-react. Acessibilidade: tamanho de letra, alto contraste, tema claro/escuro, redução de movimento, leitura em voz alta, navegação por teclado no painel de ajustes. `src/index.css` guarda os tokens de tema e as animações.
+React 18, Vite 5, Tailwind CSS 3, lucide-react.
+
+Acessibilidade:
+
+- tradução para Libras com o VLibras;
+- link "Pular para o conteúdo", que aparece ao usar o teclado;
+- anel de foco visível em links, botões e chaves, nos dois temas;
+- tamanho de letra, alto contraste, tema claro/escuro, redução de movimento e leitura em voz alta;
+- navegação por teclado no painel de ajustes, com o foco devolvido ao fechar.
+
+`src/index.css` guarda os tokens de tema e as animações.
 
 ## Uso de IA
 
