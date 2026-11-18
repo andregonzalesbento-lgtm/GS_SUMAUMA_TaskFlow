@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { Info } from 'lucide-react';
 
 export default function SettingsSheet({ open, onClose, settings, onUpdate }) {
   const closeBtnRef = useRef(null);
@@ -143,10 +144,25 @@ export default function SettingsSheet({ open, onClose, settings, onUpdate }) {
           })}
         </div>
 
-        <div role="status" className="mt-4 p-3.5 rounded-2xl bg-[var(--natureza)] text-white text-xs font-semibold">
-          {channels.length
-            ? `Canais escolhidos: ${channels.join(', ')}.`
-            : 'Nenhum canal escolhido.'}
+        <div role="status" className="mt-4">
+          {channels.length ? (
+            <div className="p-4 rounded-2xl bg-[var(--natureza)] text-white text-sm">
+              <b className="block font-semibold">Canais escolhidos: {channels.join(', ')}.</b>
+              <span className="block mt-1">
+                Protótipo: a escolha fica salva neste aparelho. As mensagens ainda não são enviadas de verdade.
+              </span>
+            </div>
+          ) : (
+            <div className="flex items-start gap-3 p-4 rounded-2xl bg-[var(--bg)] border border-[var(--ln)] text-[var(--ink)] text-sm">
+              <Info className="w-5 h-5 shrink-0 mt-0.5" aria-hidden="true" />
+              <span>
+                <b className="block font-semibold">
+                  Nenhum canal de aviso escolhido. Você vê os alertas só aqui no site.
+                </b>
+                <span className="block mt-1 text-[var(--mu)]">Protótipo: nada é enviado de verdade.</span>
+              </span>
+            </div>
+          )}
         </div>
       </aside>
     </div>
