@@ -8,7 +8,7 @@ Este registro documenta as interações de IA do André no projeto; os demais in
 | Ferramenta | Onde foi usada | Para quê |
 |---|---|---|
 | Claude (Anthropic) | Chat e sessão de código do Claude | Ideias de seções e design, revisão do código, refatoração da lógica em hooks personalizados, mesclagem do código do Kayto com o do André, verificação das notícias e documentação |
-| Claude Code (Anthropic) | Extensão do VS Code, dentro deste repositório | Teste do CRUD da API, teste da interface no navegador, correções de contraste, ajustes de desempenho, VLibras, rodapé, barra inferior, README, AI.md e commits |
+| Claude Code (Anthropic) | Extensão do VS Code, dentro deste repositório | Teste do CRUD da API, teste da interface no navegador, correções de contraste, ajustes de desempenho, VLibras, rodapé, barra inferior, seção da estação de sensores, README, AI.md e commits |
 
 O André não usou nenhuma outra ferramenta de IA no projeto.
 
@@ -27,12 +27,14 @@ Exemplos representativos. Os prompts estão transcritos como foram enviados.
 | 7 | "pense em como poderiamos ser mais inclusivos meu professor de Web deu a ideia de usarmos isso aqui: https://www.gov.br/governodigital/pt-br/acessibilidade-e-usuario/vlibras para adcionar libras ao nosso site, seria muito bacana, queria deixar o link do github do projeto tambem em algum canto, nossos nomes tambem em colaaboradores sabe que fica no fim da pagina de todo site, tipo um com APIs utilizadas, participantes, sobre o grupo, de onde surgiiu a ideia, link para o github do projeto" | O Claude integrou o widget VLibras e criou o rodapé com APIs, participantes, sobre o grupo, origem da ideia e link do GitHub. |
 | 8 | "outras duas coisas eu queria ddeixar o botão da home bar mais bonito esteticamente consegue para mim? e com base nesse print eu queria que voce ajustasse ele para dois modos ou tirasse essa informação ou solucionasse esse problema, pode ser? estou falando sobre esse nenhum canal escolhido" | Redesenho da barra inferior com os tokens do tema e separação em dois estados da mensagem de canais. |
 | 9 | "faça o seguinte analise como ficou no github as pastas se subiu alguma que exponha chaves de api etc algo assim mais drastico que desconte nota, faça os ajustes que voce julga necessario, dentro desse prompt faça tambem algo, preciso que voce tire todas as "mensagens" que voce deixa em forma de comentario dentro do codigo" | Auditoria do repositório (nenhum segredo encontrado) e remoção dos comentários do código. |
+| 10 | "quero que o site realmente funcionasse, ent os dados, as fontes, as materias de jornais, e eu queria colocar um Nivel de toxicicidade do ar, pq o meu amigo de outra materia o Richard está fazendo no python um sistema junto comm o nicholas ai queria adiccionar uma parte só para isso informando como é feito a medição, em nossso proprio aparelho feito por nos com nosso sistema etc" | O Claude verificou os dados reais do site e propôs uma seção do sensor sem inventar dados por região. |
+| 11 | "eu recebi o github do meu amigo https://github.com/RichardDsant-dev/SUMAUMA_GS https://wokwi.com/projects/480986965992104961 como podemos seguir? eu não consigo assim em cima da hora as informações do codigo pq ele não conseguiu documentar por ser feito aqui" | O Claude leu o repositório do Richard e o projeto do Wokwi, descobriu que o Python já envia alertas à API de avisos, achou um bug nesse envio (alertas só de fumaça falhavam) e refez a seção como estação simulada em Manaus. |
 
 ## 3. Aplicação no projeto
 
 | Arquivo | O que a IA fez |
 |---|---|
-| `src/hooks/` (6 hooks) | Criou `useSettings`, `useSpeech`, `useScrollY`, `useActiveSection`, `useEnvironmentData` e `useReports`, tirando estado e lógica de negócio dos componentes visuais. |
+| `src/hooks/` (7 hooks) | Criou `useSettings`, `useSpeech`, `useScrollY`, `useActiveSection`, `useEnvironmentData` e `useReports`, tirando estado e lógica de negócio dos componentes visuais; depois, `useEstacao` (Claude Code). |
 | `src/components/RiverStory.jsx` | Propôs a seção "O aviso segue o rio". Depois, corrigiu os pontos da trilha para usar medidas reais dos textos com `ResizeObserver`. |
 | `src/components/NewsRadar.jsx` e `src/data/news.js` | Trocou as manchetes não confirmadas por 4 reportagens reais, com link direto e data de checagem. |
 | `src/services/api.js` | Escreveu o acesso à Open-Meteo, ao CSV diário do INPE e ao CRUD de avisos, com URL em `VITE_API_URL`, tempo limite e tratamento de erros. |
@@ -47,6 +49,10 @@ Exemplos representativos. Os prompts estão transcritos como foram enviados.
 | `src/components/BottomDock.jsx` | Redesenho da barra inferior com os tokens do tema, item ativo marcado com `aria-current` e botão Avisar em destaque (Claude Code). |
 | `src/components/SettingsSheet.jsx` | Dois estados para a caixa de canais (com e sem canal), anunciados por leitor de tela (Claude Code). |
 | `src/App.jsx` e `src/index.css` | Link "Pular para o conteúdo" e anel de foco visível nos dois temas (Claude Code). |
+| `src/data/estacao.js` | Dados da estação simulada (sensores, limiares, faixas de qualidade do ar, fluxo, territórios, exemplo ilustrativo) e `parseAvisoEstacao`, que lê o texto gerado pela função `montar_aviso_front` do Python do Richard (Claude Code). |
+| `src/hooks/useEstacao.js` | Separa os alertas da estação dos avisos de cidadãos e devolve a última leitura, as últimas 5, a faixa de qualidade do ar e se os dados são exemplo ou recebidos, sem requisição própria (Claude Code). |
+| `src/components/EstacaoSensor.jsx` | Seção "Estação de sensores": qualidade do ar pelo nível de fumaça, demais leituras, últimas leituras, "Como medimos", "Expansão planejada" e links do Wokwi e do Python (Claude Code). |
+| `src/components/ReportForm.jsx` | Etiqueta "Estação (simulada)" nos avisos que vêm da estação (Claude Code). |
 | `README.md` e `AI.md` | Redação e revisão dos textos, a partir das decisões do grupo. |
 
 **Decisões humanas** (não foram da IA):
@@ -57,7 +63,8 @@ Exemplos representativos. Os prompts estão transcritos como foram enviados.
 - a escolha das notícias que entram no site;
 - a divisão de tarefas do grupo;
 - a ideia de usar o VLibras, que veio do professor de Web Development;
-- o conteúdo do rodapé e a escolha de mostrar os nomes dos integrantes.
+- o conteúdo do rodapé e a escolha de mostrar os nomes dos integrantes;
+- o sensor (ESP32 no Wokwi) é do Nicholas e o programa em Python é do Richard; a IA só leu o código deles e escreveu a parte do site que mostra os alertas.
 
 ## 4. Validação das respostas
 
@@ -76,8 +83,12 @@ O que foi de fato conferido, e não apenas aceito:
 | VLibras fora do ar (18/11/2026) | Mesmo teste com `vlibras.gov.br` bloqueado | Aviso enviado e excluído normalmente, nenhuma exceção de JavaScript, nenhum resto do widget na página |
 | Rodapé, barra e painel (18/11/2026) | Capturas e medidas automáticas nas mesmas telas e temas | Contraste mínimo de texto medido no navegador: rodapé 6,23:1 e painel 5,13:1; barra 4,68:1 no pior caso calculado (tema escuro sobre área clara); alvos de toque da barra de 62 × 52 px e rótulos de 11 px; fim do rodapé 29 px acima da barra; textos do painel com 14 px |
 | Lighthouse com o VLibras (18/11/2026) | Build local, modo celular | Acessibilidade 100, Boas práticas 96, Desempenho 77. Os 4 pontos a menos em Boas práticas vêm de uma imagem interna do próprio widget VLibras |
+| Leitor dos alertas da estação (18/11/2026) | Textos gerados pela própria função `montar_aviso_front` do Python do Richard, mais casos escritos à mão (só fumaça, valor ausente, aviso de cidadão, lixo) | Todos reconhecidos corretamente; textos fora do padrão devolvem `null`, sem exceção. O mesmo teste mostrou o bug do Python: alerta só de fumaça gera `UnboundLocalError` e não é enviado |
+| Seção da estação (18/11/2026) | Playwright com a API simulada, sem e com alertas da estação, telas de 390 px e 1280 px, temas claro, escuro e alto contraste | 127 verificações OK: exemplo só sem alertas e sempre com aviso; com alertas, dados recebidos e etiqueta só nos avisos da estação; mapa de regiões igual nos dois casos; contraste mínimo de 4,98:1 |
+| Alertas reais da estação (18/11/2026) | Leitura (GET) da API de avisos | 2 alertas do Python, ambos com chama, reconhecidos pelo leitor. Trouxeram os motivos `FOGO_PROXIMO` e `FUMACA`, que ganharam rótulo próprio |
+| Lighthouse com a estação (18/11/2026) | Build local, modo celular | Acessibilidade 100, Boas práticas 96, Desempenho 76 |
 
-**Ainda não testado:** celular físico, leitores de tela e o site publicado (deploy).
+**Ainda não testado:** celular físico, leitores de tela e um alerta só de fumaça vindo do Python (depende da correção do Richard).
 
 ## 5. Análise crítica
 
@@ -99,5 +110,6 @@ O que foi de fato conferido, e não apenas aceito:
 - O protótipo não tem autenticação nem proteção contra abuso na API; em produção seria preciso um back-end intermediário entre o site e o banco de avisos.
 - É um protótipo. Os avisos não chegam a bombeiros reais, e botões de São Paulo, canais WhatsApp/SMS/rádio e boletim são simulações de interface.
 - Quando a Open-Meteo não responde, o mapa usa dados de demonstração, sempre indicados na tela.
+- A estação de sensores é uma simulação no Wokwi, e o percentual de fumaça do MQ-2 é um índice do sensor, não um índice oficial de qualidade do ar. O site depende do formato do texto que o Python envia: se esse formato mudar, os alertas passam a aparecer como avisos comuns, sem quebrar a página.
 - Os níveis Baixo / Atenção / Perigo seguem um critério simples de PM2,5. Não são o Risco de Fogo oficial do INPE.
 - O formulário que orientou a escolha do tema teve 63 respostas, a maioria de pessoas de grande cidade e nenhuma da Amazônia. Ele mede o apoio à ideia, não a necessidade de quem vive o problema. A validação com moradores e agentes de saúde continua pendente.
