@@ -83,6 +83,7 @@ export default function Footer() {
             </a>
             . Orientações ilustrativas, sem substituir Defesa Civil, bombeiros ou brigadas.
           </p>
+          <p>Os dados da estação de sensores são simulados no Wokwi e não são medições do mundo real.</p>
           <p>O VLibras é uma tradução automática e não substitui um intérprete humano.</p>
         </div>
       </div>

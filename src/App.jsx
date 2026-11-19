@@ -9,11 +9,13 @@ import ReportForm from './components/ReportForm';
 import BottomDock from './components/BottomDock';
 import SettingsSheet from './components/SettingsSheet';
 import Footer from './components/Footer';
+import EstacaoSensor from './components/EstacaoSensor';
 import { useSettings } from './hooks/useSettings';
 import { useSpeech } from './hooks/useSpeech';
 import { useActiveSection } from './hooks/useActiveSection';
 import { useEnvironmentData } from './hooks/useEnvironmentData';
 import { useReports } from './hooks/useReports';
+import { useEstacao } from './hooks/useEstacao';
 
 const SECTIONS = ['top', 'risco', 'sp-ajuda', 'avisar'];
 
@@ -23,6 +25,7 @@ export default function App() {
   const activeSection = useActiveSection(SECTIONS);
   const { regions, status } = useEnvironmentData();
   const reports = useReports(!!settings.off);
+  const estacao = useEstacao(reports.items);
 
   const [selectedIdx, setSelectedIdx] = useState(1);
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -63,6 +66,7 @@ export default function App() {
             status={status}
             onSpeak={(text) => speak(text, true)}
           />
+          <EstacaoSensor estacao={estacao} onSpeak={(text) => speak(text, true)} />
           <SaoPauloHelp onNotify={(msg) => speak(msg)} />
           <NewsRadar />
           <ReportForm

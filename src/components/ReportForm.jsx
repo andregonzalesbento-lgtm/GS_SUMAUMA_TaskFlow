@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { PhoneCall, Send, Trash2, CheckCircle, ArrowRight } from 'lucide-react';
+import { PhoneCall, Send, Trash2, CheckCircle, ArrowRight, Cpu } from 'lucide-react';
 import { API_URL } from '../services/api';
+import { parseAvisoEstacao } from '../data/estacao';
 
 const REPORT_TYPES = ['Fumaça no ar', 'Fogo perto de casa', 'Fogo na mata'];
 const STAGES = ['Enviado', 'Brigada acionada', 'Atendido'];
@@ -155,8 +156,14 @@ export default function ReportForm({
         <div className="mt-6 space-y-3">
           {items.map((item) => {
             const isQueued = item.s < 0;
+            const daEstacao = !!parseAvisoEstacao(item.d);
             return (
               <article key={item.id} className="rounded-2xl border border-[var(--ln)] bg-[var(--bg)] p-4">
+                {daEstacao && (
+                  <span className="inline-flex items-center gap-1 mb-1.5 text-xs font-bold px-2.5 py-0.5 rounded-full bg-[color-mix(in_srgb,var(--natureza)_15%,var(--bg))] text-[var(--natureza-texto)]">
+                    <Cpu className="w-3.5 h-3.5" aria-hidden="true" /> Estação (simulada)
+                  </span>
+                )}
                 <b className="block text-base">
                   {REPORT_TYPES[item.k]} em {item.z}
                 </b>
