@@ -100,6 +100,8 @@ const MOTIVOS = {
   INCENDIO_PROVAVEL: 'Incêndio provável',
   CALOR_EXTREMO: 'Calor extremo',
   COMANDO_PYTHON: 'Comando do Python',
+  FOGO_PROXIMO: 'Fogo próximo',
+  FUMACA: 'Fumaça',
 };
 
 const CAMPOS = [
