@@ -12,6 +12,8 @@ Este registro documenta as interações de IA do André no projeto; os demais in
 
 O André não usou nenhuma outra ferramenta de IA no projeto.
 
+O Richard registrou o uso de IA dele (Gemini e Claude) nos arquivos prompt.md e prompt_complemento.md do repositório dele: https://github.com/RichardDsant-dev/SUMAUMA_GS
+
 ## 2. Interações realizadas
 
 Exemplos representativos. Os prompts estão transcritos como foram enviados.
@@ -25,7 +27,7 @@ Exemplos representativos. Os prompts estão transcritos como foram enviados.
 | 5 | "faça todas essas substituições incluindo as coisas que faltam e trocando a imagem pela que eu te mandei no lugar dessa inventado e sobre as links de noticias troque para mim por verdadeiros eu creio que seja verdadeiro sim as manchetes mas verifique" | O Claude não conseguiu confirmar as 3 manchetes originais e as substituiu por 4 reportagens reais conferidas. Também criou os 6 hooks, a API com `VITE_API_URL` e a documentação. |
 | 6 | "Junte com esse codigo aqui, eu quero que junte eesse zip sobreponto o antigo, mas de uma forma mesclando e substituindo sabe? quero tudo junto em uma coisa pq tinha parte minha junto com a dele" | O Claude mesclou o código do Kayto com o do André por comparação de três vias (as duas versões e o projeto original como base) e resolveu os conflitos arquivo por arquivo. |
 | 7 | "pense em como poderiamos ser mais inclusivos meu professor de Web deu a ideia de usarmos isso aqui: https://www.gov.br/governodigital/pt-br/acessibilidade-e-usuario/vlibras para adcionar libras ao nosso site, seria muito bacana, queria deixar o link do github do projeto tambem em algum canto, nossos nomes tambem em colaaboradores sabe que fica no fim da pagina de todo site, tipo um com APIs utilizadas, participantes, sobre o grupo, de onde surgiiu a ideia, link para o github do projeto" | O Claude integrou o widget VLibras e criou o rodapé com APIs, participantes, sobre o grupo, origem da ideia e link do GitHub. |
-| 8 | "outras duas coisas eu queria ddeixar o botão da home bar mais bonito esteticamente consegue para mim? e com base nesse print eu queria que voce ajustasse ele para dois modos ou tirasse essa informação ou solucionasse esse problema, pode ser? estou falando sobre esse nenhum canal escolhido" | Redesenho da barra inferior com os tokens do tema e separação em dois estados da mensagem de canais. |
+| 8 | "outras duas coisas eu queria ddeixar o botão da home bar mais bonito esteticamente consegue para mim? e com base nesse print eu queria que voce ajustasse ele para dois modos ou tirasse essa informação ou solucionasse esse problema, pode ser? estou falando sobre esse nenhum canal escolhido" | Redesenho da barra inferior com os tokens do tema. A frase de protótipo foi removida da caixa de canais e a mensagem passou a ter dois estados, com e sem canal. |
 | 9 | "faça o seguinte analise como ficou no github as pastas se subiu alguma que exponha chaves de api etc algo assim mais drastico que desconte nota, faça os ajustes que voce julga necessario, dentro desse prompt faça tambem algo, preciso que voce tire todas as "mensagens" que voce deixa em forma de comentario dentro do codigo" | Auditoria do repositório (nenhum segredo encontrado) e remoção dos comentários do código. |
 | 10 | "quero que o site realmente funcionasse, ent os dados, as fontes, as materias de jornais, e eu queria colocar um Nivel de toxicicidade do ar, pq o meu amigo de outra materia o Richard está fazendo no python um sistema junto comm o nicholas ai queria adiccionar uma parte só para isso informando como é feito a medição, em nossso proprio aparelho feito por nos com nosso sistema etc" | O Claude verificou os dados reais do site e propôs uma seção do sensor sem inventar dados por região. |
 | 11 | "eu recebi o github do meu amigo https://github.com/RichardDsant-dev/SUMAUMA_GS https://wokwi.com/projects/480986965992104961 como podemos seguir? eu não consigo assim em cima da hora as informações do codigo pq ele não conseguiu documentar por ser feito aqui" | O Claude leu o repositório do Richard e o projeto do Wokwi, descobriu que o Python já envia alertas à API de avisos, achou um bug nesse envio (alertas só de fumaça falhavam) e refez a seção como estação simulada em Manaus. |
@@ -87,8 +89,9 @@ O que foi de fato conferido, e não apenas aceito:
 | Seção da estação (18/11/2026) | Playwright com a API simulada, sem e com alertas da estação, telas de 390 px e 1280 px, temas claro, escuro e alto contraste | 127 verificações OK: exemplo só sem alertas e sempre com aviso; com alertas, dados recebidos e etiqueta só nos avisos da estação; mapa de regiões igual nos dois casos; contraste mínimo de 4,98:1 |
 | Alertas reais da estação (18/11/2026) | Leitura (GET) da API de avisos | 2 alertas do Python, ambos com chama, reconhecidos pelo leitor. Trouxeram os motivos `FOGO_PROXIMO` e `FUMACA`, que ganharam rótulo próprio |
 | Lighthouse com a estação (18/11/2026) | Build local, modo celular | Acessibilidade 100, Boas práticas 96, Desempenho 76 |
+| Site publicado (18/11/2026) | Teste automático com Playwright no Chrome, tela de 390 px, em https://gs-sumauma-taskflow.vercel.app ligado ao MockAPI, depois de configurar `VITE_API_URL` na Vercel | 12/12 verificações OK: frase "Aviso salvo no servidor.", envio, etapas, confirmação e exclusão de um aviso de teste; a seção da estação mostrou os 2 alertas reais do Python, que não foram alterados |
 
-**Ainda não testado:** celular físico, leitores de tela e um alerta só de fumaça vindo do Python (depende da correção do Richard).
+Ainda não testado: celular físico e leitores de tela.
 
 ## 5. Análise crítica
 
